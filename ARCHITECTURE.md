@@ -113,19 +113,18 @@ class DiagnosisController:
 
 ```mermaid
 C4Deployment
-    title AWS EKS Cluster
+    title AWS EKS Cluster Deployment
     DeploymentNode(eks, "EKS Cluster", "Kubernetes 1.25") {
         DeploymentNode(ng1, "Node Group - General") {
-            Container(api)
-            Container(ml)
+            Container(api, "API Container", "Handles API requests")
+            Container(ml, "ML Container", "Machine Learning models")
         }
         DeploymentNode(ng2, "Node Group - Data") {
-            ContainerDb(db)
+            ContainerDb(db, "Database Container", "PostgreSQL Database")
         }
     }
-    
-    System_Ext(s3, "S3 Bucket", "Almacenamiento modelos ML")
-    Rel(db, s3, "Backups diarios")
+    System_Ext(s3, "S3 Bucket", "ML Model Storage")
+    Rel(db, s3, "Backups daily")
 ```
 
 ## 📊 Metrics Dashboard
