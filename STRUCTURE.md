@@ -91,7 +91,7 @@ graph LR
     D -->|Aprobado| E[Deploy Dev]
     E --> F[QA Automation]
     F -->|✅| G[Promote to Prod]
-```
+
 
 ### 📊 Métricas de Calidad
 | Área | Herramienta | Objetivo |
