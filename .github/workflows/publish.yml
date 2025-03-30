@@ -1,0 +1,17 @@
+```yaml
+     # .github/workflows/publish.yml
+     on:
+       push:
+         tags:
+           - 'v*'
+     jobs:
+       publish:
+         runs-on: ubuntu-latest
+         steps:
+           - uses: docker/build-push-action@v3
+             with:
+               push: true
+               tags: |
+                 tu-usuario/mechbot:latest
+                 tu-usuario/mechbot:${{ github.ref_name }}
+     ```
