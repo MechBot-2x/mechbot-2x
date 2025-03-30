@@ -22,19 +22,18 @@ C4Context
 
 ### 🏗️ Container Diagram (Level 2)
 ```mermaid
-C4Container
+C4Context
     title Arquitectura de Contenedores
     Container(spa, "Aplicación Web", "React + Next.js", "Interfaz 3D/AR")
     Container(mobile, "App Móvil", "React Native", "Conexión Bluetooth OBD")
     Container(api, "API Gateway", "FastAPI", "Enrutamiento y Auth")
     Container(ml, "Servicio ML", "Python + ONNX", "Modelos XGBoost/BERT")
     ContainerDb(db, "Base de Datos", "PostgreSQL + Cassandra", "Datos transaccionales y telemetría")
-    
+
     Rel(spa, api, "HTTPS/2")
     Rel(mobile, api, "gRPC")
     Rel(api, ml, "gRPC")
     Rel(ml, db, "SQL/NoSQL")
-    Rel(mobile, obd, "Bluetooth LE")
 ```
 
 ### 🔧 Component Diagram (Level 3 - Core Service)
