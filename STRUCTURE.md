@@ -1,5 +1,8 @@
+```markdown
 # Estructura del Proyecto MechBot 2.0x
 
+```
+.
 ├── 📁 backend
 │   ├── 📁 auth                  # Autenticación JWT Zero-Trust
 │   │   ├── jwt_manager.py       # Rotación HS512/Kyber
@@ -56,6 +59,7 @@
 ├── .env.sample                  # Plantilla variables
 ├── Makefile                     # Automatización
 └── pyproject.toml               # Dependencias Python
+```
 
 ### 🔍 Explicación de Directorios Clave
 
