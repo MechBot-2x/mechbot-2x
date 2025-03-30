@@ -1,0 +1,12 @@
+# API Reference - MechBot 2.0x
+
+## 🔐 Autenticación
+### `POST /auth/token`
+Genera un JWT para acceso a los endpoints protegidos.
+
+**Request:**
+```json
+{
+  "client_id": "mechbot_mobile_app",
+  "client_secret": "tu_secreto_registrado"
+}
