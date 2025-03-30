@@ -1,7 +1,5 @@
 ```markdown
 # Estructura del Proyecto MechBot 2.0x
-
-```
 .
 ├── 📁 backend
 │   ├── 📁 auth                  # Autenticación JWT Zero-Trust
