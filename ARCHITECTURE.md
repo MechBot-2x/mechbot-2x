@@ -127,6 +127,7 @@ C4Deployment
 
     System_Ext(s3, "S3 Bucket", "Almacenamiento modelos ML")
     Rel(db, s3, "Backups diarios")
+
 ```
 
 ## 📊 Metrics Dashboard
