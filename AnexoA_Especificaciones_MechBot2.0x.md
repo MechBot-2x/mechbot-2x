@@ -1,4 +1,4 @@
-Due to technical issues, the search service is temporarily unavailable.
+(Due to technical issues, the search service is temporarily unavailable.)
 
 ### **Anexo A: Especificaciones Técnicas y Protocolos de Integración de MechBot 2.0x**  
 **Documentación Técnica Complementaria**  
