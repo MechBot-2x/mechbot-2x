@@ -1,6 +1,8 @@
 ```markdown
-# Estructura del Proyecto MechBot 2.0x
-[![CI/CD Pipeline](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/ci-cd.yml)
+# Estructura del Proyecto MechBot 2.0x  
+**Arquitectura**: CI/CD + Multi-Cloud (AWS/GCP)  
+
+[![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions)
 .
 ├── 📁 backend
 │   ├── 📁 auth                  # Autenticación JWT Zero-Trust
