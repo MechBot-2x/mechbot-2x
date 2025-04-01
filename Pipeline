@@ -1,0 +1,232 @@
+# **MechBot 2.0x - Estructura del Proyecto y Pipeline CI/CD**  
+
+## **🔧 Pipeline CI/CD Optimizado**  
+
+```yaml
+name: Pipeline CI/CD de MechBot 2.0x
+on:
+  push:
+    branches: [main, dev]
+    tags: ['v*.*.*']  # Ej: v1.2.3
+  pull_request:
+    branches: ['*']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true  # Evita ejecuciones duplicadas
+
+jobs:
+  control-calidad:
+    name: Puerta de Calidad
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15  # Fallo rápido si hay bloqueos
+
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necesario para análisis de código
+          submodules: recursive  # Para dependencias embebidas
+
+      - name: Configurar Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'  # Acelera builds futuros
+          cache-dependency-path: '**/requirements.txt'
+
+      - name: Instalar dependencias
+        run: |
+          pip install --upgrade pip wheel
+          pip install -e .[test,security]  # Dependencias de testeo
+          pip install ruff==0.3.7 mypy==1.8.0  # Linters estáticos
+
+      - name: Configurar entorno
+        run: |
+          cp env.sample .env  # Variables de entorno para testing
+          echo "MODE=ci" >> .env
+          echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+
+      - name: Análisis estático
+        run: |
+          echo "=== Verificación con Ruff ==="
+          ruff check --config=pyproject.toml src/ tests/
+          
+          echo "=== Verificación de tipos con MyPy ==="
+          mypy --config-file=pyproject.toml src/
+
+      - name: Pruebas unitarias
+        run: |
+          pytest \
+            --cov=src \          # Genera informe de cobertura
+            --cov-report=xml \    # Para SonarQube
+            --cov-report=term \   # Muestra resultados en consola
+            --durations=10 \      # Identifica pruebas lentas
+            tests/unit/
+
+      - name: Escaneo de seguridad
+        run: |
+          pip install safety
+          safety check --full-report  # Detecta dependencias vulnerables
+          bandit -r src/             # Análisis de código inseguro
+
+      - name: Subir métricas de cobertura
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true  # Falla si la cobertura es insuficiente
+
+  pruebas-integración:
+    name: Suite de Integración
+    needs: control-calidad  # Depende del job anterior
+    runs-on: ubuntu-22.04
+    
+    services:
+      postgres:  # Base de datos para testing
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          docker-compose -f docker-compose.test.yml up -d
+          pytest tests/integration  # Pruebas con servicios reales
+```
+
+---
+
+## **🏗️ Estructura del Proyecto (Mejorada)**  
+
+```bash
+mechbot-2x/
+├── 📁 .github/
+│   └── 📁 workflows/
+│       ├── ci-cd.yml            # Pipeline CI/CD principal
+│       └── release.yml          # Despliegues automáticos
+│
+├── 📁 backend/
+│   ├── 📁 auth/                 # Autenticación Zero-Trust
+│   │   ├── jwt_manager.py       # JWT con HS512 + Kyber (PQC)
+│   │   └── oauth_schemas.py     # Modelos Pydantic v2
+│   │
+│   ├── 📁 diagnosis/            # Núcleo de IA
+│   │   ├── ml_models/           # Modelos ONNX optimizados
+│   │   │   ├── xgboost-v3.onnx  # Para diagnóstico rápido
+│   │   │   └── bert-multi.onnx  # Análisis multilingüe
+│   │   └── realtime_processing/ # Procesamiento en tiempo real
+│   │       ├── spark_stream.py  # Integración con Kafka
+│   │       └── fault_codes.db   # Base de datos de códigos de error (SAE J2012)
+│   │
+│   └── 📁 workshop-integration/ # Conexión con talleres
+│       ├── protos/              # Definiciones gRPC (.proto)
+│       │   └── diagnosis.proto
+│       └── salesforce_adapter/  # Integración con CRM
+│           └── soql_queries.json
+│
+├── 📁 frontend/
+│   ├── 📁 public/               # Assets estáticos
+│   │   └── models/             # Modelos 3D (GLTF comprimido)
+│   │       ├── engine.glb       # Motor interactivo
+│   │       └── transmission.glb # Transmisión en 3D
+│   │
+│   ├── 📁 src/
+│   │   ├── hooks/              # Hooks personalizados de React
+│   │   │   └── useTelemetry.js # Gestión de WebSockets
+│   │   └── components/AR/      # Componentes de Realidad Aumentada
+│   │       ├── EngineViewer.js # Renderizado WebGL
+│   │       └── FaultOverlay.js # Anotaciones 3D interactivas
+│   │
+│   └── next.config.js          # Configuración SSR/ISR
+│
+├── 📁 infrastructure/
+│   ├── 📁 k8s/                 # Configuración Kubernetes
+│   │   ├── values-prod.yaml    # Autoescalado (HPA)
+│   │   └── istio-gateway.yaml  # Gestión de tráfico
+│   │
+│   ├── 📁 terraform/           # Infraestructura como Código
+│   │   ├── modules/eks/        # Cluster AWS EKS
+│   │   └── monitoring/         # Alertas de Prometheus
+│   │
+│   └── docker-compose.yml      # Entorno de desarrollo local
+│
+├── 📁 tests/
+│   ├── e2e/                    # Pruebas End-to-End
+│   │   └── diagnosis-flow.spec.js  # Flujo de diagnóstico con Playwright
+│   ├── integration/            # Pruebas de integración
+│   │   └── test_grpc_service.py    # gRPC + PostgreSQL
+│   └── unit/                   # Pruebas unitarias
+│       └── test_jwt_manager.py  # 100% cobertura
+│
+├── 📁 scripts/
+│   ├── data-pipeline/          # ETL con AWS Glue
+│   │   └── transform_obd.py    # Procesamiento de datos OBD-II
+│   └── security/              # Auditorías de seguridad
+│       └── cis_scan.sh         # Escaneo diario CIS Benchmark
+│
+├── .env.sample                 # Plantilla de variables de entorno
+├── Makefile                    # Comandos automatizados
+└── pyproject.toml              # Configuración PEP-621
+```
+
+---
+
+## **🔍 Detalles Técnicos Clave**  
+
+### **⚙️ Configuración de Seguridad**  
+```python
+# pyproject.toml
+[tool.bandit]
+exclude_dirs = ["legacy"]  # Ignorar código heredado
+targets = ["src"]          # Escanear solo código fuente
+skips = ["B101"]           # Permitir 'assert' en tests
+
+[tool.ruff]
+line-length = 120          # Máximo de caracteres por línea
+select = ["E", "F", "B"]   # Habilitar reglas clave
+ignore = ["E501"]          # Ignorar límite de línea (ya gestionado por Black)
+```
+
+### **🚀 Optimización para Producción**  
+```dockerfile
+# backend/Dockerfile (Optimizado para GPU)
+FROM python:3.10-slim as builder
+RUN pip install --user onnxruntime-gpu==1.16.0  # Soporte CUDA
+
+FROM nvidia/cuda:12.2-base
+COPY --from=builder /root/.local /usr/local
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64  # Soporte NVIDIA
+```
+
+### **📊 Métricas de Calidad**  
+| Área          | Herramienta    | Objetivo               |
+|---------------|---------------|------------------------|
+| **Código**    | SonarQube     | <5% deuda técnica      |
+| **Seguridad** | Trivy + Bandit| 0 vulnerabilidades críticas |
+| **Rendimiento**| k6            | p95 < 2 segundos       |
+| **Documentación** | Vale       | 100% cobertura         |
+
+---
+
+## **🚀 Workflow de Desarrollo**  
+```mermaid
+graph LR
+    A[Issue en GitHub] --> B[Rama semántica]
+    B --> C[Pre-commit: Ruff + MyPy]
+    C --> D[CI: Build + Tests]
+    D -->|✅| E[Despliegue en Dev]
+    E --> F[QA Automatizado]
+    F -->|Aprobado| G[Promoción a Producción]
+```
+
+**Equipo MechBot 2.0x**  
+[![Licencia](https://img.shields.io/badge/Licencia-Apache_2.0-blue.svg)](LICENSE)  
+*Última actualización: 20/11/2023*  
+
+📌 **¿Preguntas?** Abre un *issue* en [GitHub](https://github.com/mechbot-2x).
