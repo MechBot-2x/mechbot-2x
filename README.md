@@ -96,7 +96,7 @@ kubectl create cluster mechbot-prod \
 ---
 
 **Equipo MechBot 2.0x**  
-[![Contribuidores](https://img.shields.io/github/contributors/tu-usuario/mechbot-2x)]()  
+[![Contribuidores](https://img.shields.io/github/contributors/mechmind-dwv/mechbot-2x)]()  
 *Documentación actualizada: 2025-04-01*
 ```
 
