@@ -1,46 +1,116 @@
-name: Publish Docker Image
+name: MechBot 2.0x Full Pipeline
 
 on:
   push:
-    tags:
-      - 'v*'  # Ejemplo: v1.0.0, v2.1.3
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  publish:
+  setup:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          username: 'mechmindd'  # Tu nombre de usuario de Docker Hub
-          password: '${{ secrets.DOCKER_HUB_TOKEN }}'  # Token almacenado en GitHub Secrets
+          python-version: "3.10"
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Extract metadata (tags, labels)
-        id: meta
-        uses: docker/metadata-action@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.3.0
         with:
-          images: |
-            mechmindd/mechbot  # Reemplaza con tu nombre de usuario
-          tags: |
-            type=raw,value=latest
-            type=ref,event=tag
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
+      - name: Set up Go
+        uses: actions/setup-go@v5.4.0
         with:
-          context: .
-          file: ./dockerfiles/Dockerfile.api
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          go-version: '1.21'
+          cache: true
+          cache-dependency-path: 'go.sum'
+
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v4.2.3
+        with:
+          path: |
+            ~/.cache/pip
+            ~/go/pkg/mod
+            node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/requirements.txt', '**/package-lock.json', '**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build Go binaries
+        run: go build -o bin/ ./...
+
+      - name: Build Docker image
+        run: docker build -f dockerfiles/Dockerfile.api -t mechbot-api .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: build-outputs
+          path: |
+            bin/
+            node_modules/
+            dist/
+          retention-days: 7
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4.2.1
+        with:
+          name: build-outputs
+          path: artifacts
+
+      - name: Run Python tests
+        run: pytest --cov=src/ --cov-report=xml
+
+      - name: Run Node tests
+        run: npm test
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4.2.1
+        with:
+          name: build-outputs
+
+      - name: Deploy to Kubernetes
+        run: kubectl apply -f kubernetes/
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+
+      - name: First interaction message
+        uses: actions/first-interaction@v1.3.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-message: "🎉 Thanks for your first contribution to MechBot 2.0x!"
