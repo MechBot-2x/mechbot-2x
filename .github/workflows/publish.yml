@@ -1,66 +1,53 @@
-[![.github/workflows/publish.yml](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/publish.yml/badge.svg)](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/publish.yml)
+name: Publish MechBot 2.0x (Multi-Arch/Helm)
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Ej: v2.1.0, v3.0.0-rc1
+  workflow_dispatch:  # Ejecución manual
+
 jobs:
-  contribution:
+  publish:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
+    environment: production
     steps:
-      # Configuración de entornos
-      - name: Setup Node.js
-        uses: actions/setup-node@v4.3.0
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v4.3.1
-        with:
-          dotnet-version: '6.0.x'
-          cache: true
-
-      # Caché inteligente
-      - name: Cache dependencies
-        uses: actions/cache@v4.2.3
-        with:
-          path: |
-            ~/.npm
-            ~/.nuget/packages
-            src/bin
-          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json', '**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-
-      # Manejo de contribuyentes
-      - name: First Interaction
-        uses: actions/first-interaction@v1.3.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          pr-message: |
-            🤖 ¡Bienvenido al equipo MechBot 2.0x!
-            **Checklist de revisión**:
-            - [ ] Validación OBD-II (Ejecutar `tests/obd_test.py`)
-            - [ ] Compatibilidad CAN FD (Verificar [Anexo A](AnexoA_Especificaciones_MechBot2.0x.md))
-            📅 Tiempo estimado de revisión: 48h
-          issue-message: |
-            🚗 Issue detectado - Equipo asignado:
-            - @mechbot-ia-team (Para fallos de modelos ML)
-            - @mechbot-firmware (Para problemas CAN/OBD)
-
-      # Build y Artifacts
-      - name: Build artifacts
-        run: |
-          npm run build
-          dotnet publish -c Release -o artifacts
-          
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4.6.2
+      # Descarga de artifacts del job de build
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4.2.1
         with:
           name: build-output
-          path: |
-            dist/
-            artifacts/
-            coverage.xml
-          retention-days: 7
-          compression-level: 6
+          path: /tmp/artifacts
+
+      # Configuración de Helmfile
+      - name: Deploy with Helmfile
+        uses: cloudposse/github-action-deploy-helmfile@0.7.0
+        with:
+          cluster: mechbot-prod-cluster
+          aws-region: us-west-2
+          helmfile-path: ./deploy/helm
+          helmfile: mechbot.helmfile.yaml
+          operation: deploy
+          environment: production
+          namespace: mechbot-prod
+          image: mechmind/mechbot-api
+          image-tag: ${{ github.ref_name }}
+          helm_version: 3.12.0
+          helmfile_version: 0.150.0
+          kubectl_version: 1.27.5
+          values_yaml: |
+            monitoring:
+              enabled: true
+            canbus:
+              interface: vcan0
+
+      # Notificación de estado
+      - name: Slack Notification
+        if: always()
+        uses: slackapi/slack-github-action@v1
+        with:
+          channel-id: 'mechbot-deployments'
+          slack-message: |
+            ${{ job.status }}: Despliegue v${{ github.ref_name }} completado
+            *Cluster*: `mechbot-prod-cluster`
+            *Commit*: `${{ github.sha }}`
+            *Helm Release*: `mechbot-${{ github.run_number }}`
