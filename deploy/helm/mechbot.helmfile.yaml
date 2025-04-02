@@ -1,0 +1,9 @@
+# deploy/helm/mechbot.helmfile.yaml
+releases:
+  - name: mechbot-core
+    chart: ./charts/core
+    values:
+      - values/{{ .Environment.Name }}.yaml
+      - image:
+          repository: {{ .Values.image }}
+          tag: {{ .Values.image-tag }}
