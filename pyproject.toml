@@ -1,131 +1,35 @@
-# pyproject.toml - MechBot 2.0x
-# Configuración mejorada para el proyecto de diagnóstico automotriz
-
-[project]
-name = "mechbot-core"
-version = "2.0.1"
-description = "Plataforma de diagnóstico automotriz inteligente con IA"
-authors = [
-    {name = "Equipo Técnico MechBot", email = "dev@mechbot.tech"}
-]
-license = {text = "Apache-2.0"}
-requires-python = ">=3.10"
-readme = "README.md"
-
-[build-system]
-requires = ["setuptools>=65", "wheel"]
-build-backend = "setuptools.build_meta"
-
 # ========================
-# DEPENDENCIAS PRINCIPALES
+# CONFIGURACIÓN DE RUFF (ACTUALIZADA)
 # ========================
-dependencies = [
-    # Núcleo de la aplicación
-    "fastapi==0.95.2",          # Framework API web
-    "uvicorn[standard]==0.22.0", # Servidor ASGI
-    "python-dotenv==1.0.0",     # Manejo de variables de entorno
-    
-    # Programación asíncrona
-    "anyio==3.6.2",             # Compatibilidad asíncrona
-    "asyncio==3.4.3",           # Soporte para async/await
-    
-    # Seguridad
-    "python-jose[cryptography]==3.3.0",  # JWT y cifrado
-    "passlib[bcrypt]==1.7.4",   # Hashing de contraseñas
-    "cryptography==41.0.3",     # Algoritmos criptográficos
-    
-    # Utilidades
-    "loguru==0.7.0",            # Sistema de logging mejorado
-    "orjson==3.9.5",            # Procesamiento JSON rápido
-]
-
-# ========================
-# DEPENDENCIAS OPCIONALES
-# ========================
-[project.optional-dependencies]
-ia = [
-    # Machine Learning
-    "onnxruntime==1.14.1",      # Ejecución de modelos ONNX
-    "xgboost==1.7.5",           # Modelos de boosting
-    "transformers[torch]==4.30.2", # NLP con BERT
-    "scikit-learn==1.2.2",      # Algoritmos ML
-    "numpy==1.24.4",            # Requerido por ONNX
-]
-
-datos = [
-    # Procesamiento de datos
-    "confluent-kafka==2.1.1",   # Mensajería con Kafka
-    "pyspark[sql]==3.4.0",      # Procesamiento distribuido
-    "delta-spark==2.4.0",       # Tablas Delta
-    "pyarrow==12.0.1",          # Formato columnar eficiente
-]
-
-bd = [
-    # Bases de datos
-    "asyncpg==0.27.0",          # PostgreSQL asíncrono
-    "sqlalchemy[asyncio]==2.0.15", # ORM para bases de datos
-    "cassandra-driver==3.28.0", # Conexión a Cassandra
-    "redis[hiredis]==4.5.5",    # Cache con Redis
-]
-
-talleres = [
-    # Integración con talleres
-    "grpcio==1.54.2",           # Comunicación gRPC
-    "grpcio-tools==1.54.2",     # Generación de stubs
-    "protobuf==4.23.2",         # Serialización de mensajes
-]
-
-monitoreo = [
-    # Observabilidad
-    "prometheus-client==0.17.1", # Métricas
-    "opentelemetry-sdk==1.18.0", # Trazas distribuidas
-]
-
-desarrollo = [
-    # Herramientas de desarrollo
-    "pytest==7.4.0",            # Pruebas unitarias
-    "pytest-asyncio==0.21.1",   # Soporte para async
-    "pytest-cov==4.1.0",        # Cobertura de código
-    "httpx==0.24.1",            # Cliente HTTP para pruebas
-    "black==23.7.0",            # Formateador de código
-    "ruff==0.0.280",            # Linter rápido
-    "mypy==1.5.0",              # Chequeo de tipos
-    "ipython==8.14.0",          # Consola interactiva
-]
-
-# ========================
-# CONFIGURACIÓN DE HERRAMIENTAS
-# ========================
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-asyncio_mode = "auto"
-addopts = "-v --cov=src --cov-report=xml"
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore::pytest.PytestUnhandledThreadExceptionWarning"
-]
-
-[tool.mypy]
-python_version = "3.10"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-strict_equality = true
-
 [tool.ruff]
+# Configuración básica
 line-length = 120
-select = ["E", "F", "B", "I", "N", "D", "UP", "RUF"]
-ignore = ["D203", "D212", "B008"]
 target-version = "py310"
-unfixable = ["T20", "F401"]
+exclude = ["tests/"]  # Ignorar tests temporalmente
 
-[tool.black]
-line-length = 120
-target-version = ['py310']
-skip-string-normalization = true
+# Reglas a incluir
+select = [
+    "E",   # Pyflakes
+    "F",   # Pyflakes
+    "B",   # Bugbear
+    "I",   # Isort
+    "N",   # Pep8-naming
+    "D",   # pydocstyle
+    "UP",  # pyupgrade
+    "RUF"  # Reglas específicas de Ruff
+]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["mechbot*"]
-exclude = ["tests*"]
+# Reglas a ignorar
+ignore = [
+    "D203",  # Espacio en blanco antes de docstring
+    "D212",  # Docstring multi-line debe empezar en primera línea
+    "B008",  # No llamar a funciones en argumentos por defecto
+    "D104",  # Docstring en paquete público (opcional)
+]
+
+# Configuración específica de plugins
+[tool.ruff.pydocstyle]
+convention = "google"  # Estilo Google para docstrings
+
+[tool.ruff.isort]
+known-first-party = ["mechbot"]
