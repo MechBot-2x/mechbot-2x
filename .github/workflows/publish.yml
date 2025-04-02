@@ -1,116 +1,50 @@
-name: MechBot 2.0x Full Pipeline
-
-on:
-  push:
-    branches: [ "main", "dev" ]
-  pull_request:
-    branches: [ "main" ]
-
 jobs:
-  setup:
+  contribution:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4.3.0
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
-
-      - name: Set up Go
-        uses: actions/setup-go@v5.4.0
-        with:
-          go-version: '1.21'
-          cache: true
-          cache-dependency-path: 'go.sum'
-
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Cache dependencies
-        uses: actions/cache@v4.2.3
-        with:
-          path: |
-            ~/.cache/pip
-            ~/go/pkg/mod
-            node_modules
-          key: ${{ runner.os }}-build-${{ hashFiles('**/requirements.txt', '**/package-lock.json', '**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-
-      - name: Install Python dependencies
-        run: pip install -r requirements.txt
-
-      - name: Install Node dependencies
-        run: npm ci
-
-      - name: Build Go binaries
-        run: go build -o bin/ ./...
-
-      - name: Build Docker image
-        run: docker build -f dockerfiles/Dockerfile.api -t mechbot-api .
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          name: build-outputs
-          path: |
-            bin/
-            node_modules/
-            dist/
-          retention-days: 7
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4.2.1
-        with:
-          name: build-outputs
-          path: artifacts
-
-      - name: Run Python tests
-        run: pytest --cov=src/ --cov-report=xml
-
-      - name: Run Node tests
-        run: npm test
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4.2.1
-        with:
-          name: build-outputs
-
-      - name: Deploy to Kubernetes
-        run: kubectl apply -f kubernetes/
-        env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-
-      - name: First interaction message
+      - name: Bienvenida automática a contribuyentes
         uses: actions/first-interaction@v1.3.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          pr-message: "🎉 Thanks for your first contribution to MechBot 2.0x!"
+          issue-message: |
+            🚗 ¡Gracias por reportar este issue en MechBot 2.0x!
+            
+            **Soy un bot amigable** 🤖 aquí para ayudarte:
+            - ¿Es un *bug*? Por favor adjunta:
+              - Modelo del vehículo afectado
+              - Códigos OBD-II relevantes
+              - Capturas del dashboard (si aplica)
+            
+            - ¿Es una *mejora*? Describe:
+              - El caso de uso
+              - Beneficios esperados
+            
+            📌 Recursos útiles:
+            - [Guía de reportes](https://github.com/mechmind-dwv/mechbot-2x/blob/main/CONTRIBUTING.md#reportando-issues)
+            - [Soporte técnico](mailto:soporte@mechbot.tech)
+            
+            Nuestro equipo te contactará en <48h.
+            ¡Gracias por hacer MechBot mejor! 🛠️
+          pr-message: |
+            🤖 ¡Bienvenido al equipo MechBot 2.0x!
+            
+            **Tu PR está siendo revisado** 🔍
+            - [ ] Verificación de código
+            - [ ] Pruebas automáticas
+            - [ ] Validación OBD-II
+            
+            👨‍💻 *Para desarrolladores*:
+            - Revisa [ARCHITECTURE.md](ARCHITECTURE.md)
+            - Ejecuta `pytest tests/` localmente
+            
+            🔧 *Para mecánicos*:
+            - Verifica [Anexo A](AnexoA_Especificaciones_MechBot2.0x.md)
+            - ¿Los diagnósticos coinciden con tu experiencia?
+            
+            ⏳ Tiempo estimado de revisión: 2-3 días
+            Contacto: @mechmind-dwv (Mantenedor principal)
+            
+            ¡Gracias por tu contribución al diagnóstico automotriz! 🚘💨
