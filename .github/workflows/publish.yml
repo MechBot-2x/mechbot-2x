@@ -1,3 +1,4 @@
+[![.github/workflows/publish.yml](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/publish.yml/badge.svg)](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/publish.yml)
 jobs:
   contribution:
     runs-on: ubuntu-latest
