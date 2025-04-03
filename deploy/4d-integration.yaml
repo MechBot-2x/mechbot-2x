@@ -1,0 +1,16 @@
+```yaml
+# Mapeo de capas
+resource_mapping:
+  physical:
+    nodes: 
+      - jetson-agx:/gpu
+      - raspberrypi:/gpio
+  platform:
+    services:
+      - name: "3d-render"
+        gpu_alloc: "2"
+  application:
+    dependencies:
+      - "services/grpc@v2.1"
+      - "services/kafka@v1.7"
+```
