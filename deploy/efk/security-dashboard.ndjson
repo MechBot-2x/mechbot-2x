@@ -1,0 +1,16 @@
+## **6. Auditoría y Cumplimiento**  
+**Archivos clave:**  
+- `compliance/iso27001-controls.csv`  
+- `scripts/security/audit.sh`  
+
+### **Checklist Automatizado:**  
+```bash
+#!/bin/bash
+# En audit.sh
+check_ssl() {
+  openssl s_client -connect $1:443 | grep "TLSv1.3"
+}
+check_db_encryption() {
+  psql -c "SHOW ssl;" | grep "on"
+}
+```
