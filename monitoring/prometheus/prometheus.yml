@@ -16,8 +16,8 @@ rule_files:
   - '/etc/prometheus/rules/vehicle_rules.yml'
   - '/etc/prometheus/rules/ia_rules.yml'
 
+# Monitorización de componentes vehiculares
 scrape_configs:
-  # Monitorización de componentes vehiculares
   - job_name: 'vehicle_metrics'
     scrape_interval: 5s
     metrics_path: '/metrics'
