@@ -1,4 +1,3 @@
-
 ### **3. Capa Servicios**  
 **Configuración Kafka:** `config/kafka/schemas/telemetry.avsc`  
 ```json  
