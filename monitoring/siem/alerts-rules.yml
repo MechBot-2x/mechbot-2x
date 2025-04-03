@@ -1,4 +1,10 @@
-## **5. Monitoreo de Seguridad**  
-**Archivos clave:**  
-- `monitoring/siem/alerts-rules.yml`  
-- `deploy/efk/security-dashboard.ndjson
+### **Alertas Prioritarias:**  
+```yaml
+# En alerts-rules.yml
+- alert: JWT_Tampering_Attempt
+  expr: rate(jwt_failed_attempts[5m]) > 3
+  labels:
+    severity: critical
+  annotations:
+    summary: "Posible ataque de fuerza bruta JWT"
+```
