@@ -31,7 +31,7 @@ cassandra-driver==3.28.0
 redis[hiredis]==4.5.5
 
 ### gRPC e Integraciones ###
-grpcio==1.54.2
+grpcio==1.54.3
 grpcio-tools==1.54.2
 google-api-python-client==2.86.0
 
