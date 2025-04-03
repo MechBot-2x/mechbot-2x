@@ -79,7 +79,7 @@ ia = [
     
     # Procesamiento de Señales
     "scipy==1.10.1",            # Análisis de vibraciones
-    "scikit-learn==1.2.2",      # Pre-procesamiento
+    "scikit-learn==1.5.1",      # Pre-procesamiento
     
     # Visión por Computador
     "opencv-python==4.7.0.72",  # Análisis de imágenes
@@ -104,7 +104,7 @@ obd = [
 # Módulo de Gestión de Talleres
 # ------------------------------------
 taller = [
-    "grpcio==1.54.2",           # Comunicación gRPC
+    "grpcio==1.54.3",           # Comunicación gRPC
     "grpcio-tools==1.54.2",     # Generación de stubs
     "protobuf==4.23.2",         # Serialización Protocol Buffers
     "googleapis-common-protos==1.59.1" # Protos estándar
