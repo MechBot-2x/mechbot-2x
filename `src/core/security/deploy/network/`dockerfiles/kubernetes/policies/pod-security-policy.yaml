@@ -1,8 +1,8 @@
-```bash
-   # En CI/CD (publish.yml)
-   - name: Scan image
-     uses: aquasecurity/trivy-action@0.9
-     with:
-       image-ref: ${{ steps.meta.outputs.tags }}
-       severity: 'CRITICAL,HIGH'
+```yaml
+   # En pod-security-policy.yaml
+   spec:
+     readOnlyRootFilesystem: true
+     allowPrivilegeEscalation: false
+     capabilities:
+       drop: ["ALL"]
    ```
