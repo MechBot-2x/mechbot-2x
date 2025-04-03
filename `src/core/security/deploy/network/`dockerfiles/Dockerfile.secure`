@@ -1,0 +1,6 @@
+### **Buenas Prácticas:**  
+1. **Usar usuarios no-root**:  
+   ```dockerfile
+   FROM alpine:3.18
+   RUN adduser -D mechbotuser
+   USER mechbotuser  # ✅
