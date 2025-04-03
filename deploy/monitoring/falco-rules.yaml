@@ -1,0 +1,9 @@
+# deploy/monitoring/falco-rules.yaml
+- rule: "Unexpected CAN Bus Access"
+  desc: "Intento de acceso al bus CAN desde contenedores no autorizados"
+  condition: >
+    container.id != host and
+    proc.name = "cansend" and
+    not user.name in ("mechbot-canuser")
+  output: "Acceso no autorizado al bus CAN (user=%user.name proc=%proc.name)"
+  priority: CRITICAL
