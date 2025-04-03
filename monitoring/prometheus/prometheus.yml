@@ -1,0 +1,70 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 15s
+  external_labels:
+    environment: 'production'
+    cluster: 'mechbot-west1'
+
+# Alertas integradas con Alertmanager
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ['alertmanager:9093']
+
+# Reglas de grabación para métricas frecuentes
+rule_files:
+  - '/etc/prometheus/rules/vehicle_rules.yml'
+  - '/etc/prometheus/rules/ia_rules.yml'
+
+scrape_configs:
+  # Monitorización de componentes vehiculares
+  - job_name: 'vehicle_metrics'
+    scrape_interval: 5s
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: 
+        - 'canbus-exporter:9100'
+        - 'obd2-adapter:9101'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __metrics_path__
+        replacement: '/vehicle-metrics'
+  
+  # Monitorización de modelos IA
+  - job_name: 'ia_inference'
+    scrape_interval: 10s
+    static_configs:
+      - targets:
+        - 'ia-inference:9110'
+        - 'xgboost-service:9111'
+    metric_relabel_configs:
+      - source_labels: [model]
+        regex: '(.*)'
+        target_label: 'model_version'
+
+  # Kubernetes Service Discovery
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        action: keep
+        regex: 'mechbot-.*'
+      - source_labels: [__meta_kubernetes_pod_container_port_number]
+        action: keep
+        regex: '9100|9110'
+
+  # Blackbox monitoring para endpoints críticos
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - 'https://api.mechbot.tech/health'
+        - 'https://telemetry.mechbot.tech/status'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: 'blackbox-exporter:9115'
