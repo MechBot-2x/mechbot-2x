@@ -51,3 +51,13 @@ jobs:
             *Cluster*: `mechbot-prod-cluster`
             *Commit*: `${{ github.sha }}`
             *Helm Release*: `mechbot-${{ github.run_number }}`
+            # En CI/CD (publish.yml)
+    
+      # En CI/CD
+      - name: Scan image
+        uses: aquasecurity/trivy-action@0.9
+        with:
+          image-ref: ${{ steps.meta.outputs.tags }}
+          severity: 'CRITICAL,HIGH
+
+        
