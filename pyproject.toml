@@ -79,7 +79,7 @@ ia = [
     
     # Procesamiento de Señales
     "scipy==1.10.1",            # Análisis de vibraciones
-    "scikit-learn==1.2.2",      # Pre-procesamiento
+    "scikit-learn==1.5.1",      # Pre-procesamiento
     
     # Visión por Computador
     "opencv-python==4.7.0.72",  # Análisis de imágenes

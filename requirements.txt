@@ -22,7 +22,7 @@ pandas==2.0.3
 onnxruntime==1.14.1
 xgboost==1.7.5
 transformers[torch]==4.30.2
-scikit-learn==1.2.2
+scikit-learn==1.5.1
 
 ### Bases de Datos ###
 asyncpg==0.27.0
