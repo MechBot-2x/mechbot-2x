@@ -1,0 +1,4 @@
+# security/alerts/brute-force-detection.yaml
+   - alert: MultipleSecretAccess
+     expr: rate(vault_secret_access[5m]) > 10
+     severity: critical
