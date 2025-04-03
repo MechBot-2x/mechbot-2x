@@ -1,0 +1,4 @@
+## **5. Monitoreo de Seguridad**  
+**Archivos clave:**  
+- `monitoring/siem/alerts-rules.yml`  
+- `deploy/efk/security-dashboard.ndjson
