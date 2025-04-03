@@ -1,8 +1,17 @@
+<<<<<<< Updated upstream
 ```markdown
 # Estructura del Proyecto MechBot 2.0x  
 **Arquitectura**: CI/CD + Multi-Cloud (AWS/GCP)  
 
 [![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions)
+=======
+markdown
+# Estructura del Proyecto MechBot 2.0x  
+**Arquitectura**: CI/CD + Multi-Cloud (AWS/GCP)  
+
+[![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions
+
+>>>>>>> Stashed changes
 .
 ├── 📁 backend
 │   ├── 📁 auth                  # Autenticación JWT Zero-Trust
@@ -60,7 +69,7 @@
 ├── .env.sample                  # Plantilla variables
 ├── Makefile                     # Automatización
 └── pyproject.toml               # Dependencias Python
-```
+
 
 ### 🔍 Explicación de Directorios Clave
 
@@ -86,7 +95,7 @@
 
 ### 🛠️ Workflow de Desarrollo
 
-```mermaid
+mermaid
 graph LR
     A[GitHub Issue] --> B[Branch semántico]
     B --> C[Pre-commit: lint+security]
@@ -94,7 +103,7 @@ graph LR
     D -->|Aprobado| E[Deploy Dev]
     E --> F[QA Automation]
     F -->|✅| G[Promote to Prod]
-```
+
 ### 📊 Métricas de Calidad
 | Área | Herramienta | Objetivo |
 |------|------------|----------|
@@ -105,5 +114,5 @@ graph LR
 
 **Equipo Técnico MechBot 2.0x**  
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)  
-*Actualizado: 2023-11-15*  
+*Actualizado: 2025-04-02*  
 📌 ¿Necesitas personalizar alguna sección? Abre un *issue* en nuestro [GitHub](https://github.com/mechbot-2x).
