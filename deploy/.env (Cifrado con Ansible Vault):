@@ -1,0 +1,5 @@
+```bash
+# Descifrar variables
+ansible-vault decrypt .env \
+  --vault-password-file ~/.vault_pass.txt
+```
