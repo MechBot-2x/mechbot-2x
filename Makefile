@@ -1,81 +1,148 @@
+# =============================================
 # Makefile - MechBot 2.0x
-# Equipo Técnico - Automatización de flujos de trabajo
+# Equipo de Ingeniería - Automatización de CI/CD
+# Versión: 2.1.8
+# =============================================
 
-# Variables de entorno
+# —— Configuración Base ——
 PROJECT_NAME := mechbot-2x
 PYTHON := python3.10
 PIP := $(PYTHON) -m pip
-DOCKER_COMPOSE := docker-compose -f docker-compose.yml
+DOCKER := docker
+DOCKER_COMPOSE := docker-compose -f deployments/docker-compose.yml
+KUBECTL := kubectl
+HELM := helm
 
-# Configuración de entornos
+# —— Variables de Entorno ——
 ENV_FILE := .env
-export $(shell grep -v '^#' $(ENV_FILE) | xargs)
+include $(ENV_FILE)
+export $(shell sed 's/=.*//' $(ENV_FILE))
 
-# Colores para terminal
+# —— Configuración de Color ——
 GREEN := \033[0;32m
+BLUE := \033[0;34m
 RED := \033[0;31m
+BOLD := \033[1m
 NC := \033[0m
 
-## —— Help ——
-help:  ## Muestra esta ayuda
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "$(GREEN)%-25s$(NC) %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
+# —— Help ——
+.PHONY: help
+help:  ## Muestra menú de ayuda interactivo
+	@echo "\n$(BOLD)MechBot 2.0x - Comandos Disponibles$(NC)\n"
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "$(BLUE)%-25s$(NC) %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
+	@echo "\nEjemplo: $(BOLD)make docker-build$(NC)\n"
 
-## —— Setup ——
-install:  ## Instala dependencias principales
-	$(PIP) install -e .[dev,ml,streaming]
+# —— Entorno de Desarrollo ——
+.PHONY: setup
+setup: venv env-file install-dev  ## Configura entorno completo (venv + dependencias)
 
-install-prod:  ## Instala solo dependencias de producción
-	$(PIP) install --no-deps .
+venv:  ## Crea entorno virtual
+	@echo "$(GREEN)Creando entorno virtual...$(NC)"
+	$(PYTHON) -m venv .venv
+	@echo "Ejecuta: $(BOLD)source .venv/bin/activate$(NC)"
 
-env-file:  ## Crea archivo .env de ejemplo
+env-file:  ## Genera archivo .env de ejemplo
 	@cp .env.sample .env
 	@echo "$(GREEN)✓ Archivo .env creado$(NC)"
+	@echo "Recuerda configurar tus variables en $(BOLD).env$(NC)"
 
-## —— Desarrollo ——
-run:  ## Inicia servidor de desarrollo
-	uvicorn mechbot.main:app --reload --host 0.0.0.0 --port 8000
+.PHONY: install-dev
+install-dev:  ## Instala dependencias de desarrollo
+	@echo "$(GREEN)Instalando dependencias...$(NC)"
+	$(PIP) install --upgrade pip
+	$(PIP) install -e ".[dev,ml,test]"
+	pre-commit install
 
-test:  ## Ejecuta todos los tests
-	$(PYTHON) -m pytest -v --cov=src --cov-report=html
+.PHONY: install-prod
+install-prod:  ## Instala solo dependencias de producción
+	$(PIP) install --no-deps -e .
 
-lint:  ## Ejecuta linters (ruff + mypy)
+# —— Desarrollo ——
+.PHONY: run
+run:  ## Inicia servidor local con autoreload
+	uvicorn src.main:app --reload --host $(API_HOST) --port $(API_PORT)
+
+.PHONY: test
+test:  ## Ejecuta tests con cobertura
+	$(PYTHON) -m pytest -v \
+		--cov=src \
+		--cov-report=html \
+		--cov-report=xml:coverage.xml \
+		--junitxml=test-results.xml
+
+.PHONY: lint
+lint:  ## Ejecuta análisis estático de código
+	@echo "$(GREEN)Ejecutando linters...$(NC)"
 	ruff check src tests
 	mypy src
+	bandit -r src -c pyproject.toml
 
-format:  ## Formatea el código (black + isort)
+.PHONY: format
+format:  ## Formatea código automáticamente
+	@echo "$(GREEN)Formateando código...$(NC)"
 	black src tests
 	isort src tests
+	ruff --select I --fix src tests
 
-## —— Docker ——
+# —— Docker ——
+.PHONY: docker-build
 docker-build:  ## Construye imágenes Docker
-	$(DOCKER_COMPOSE) build --no-cache
+	@echo "$(GREEN)Construyendo imágenes...$(NC)"
+	$(DOCKER_COMPOSE) build \
+		--build-arg PYTHON_VERSION=$(PYTHON) \
+		--no-cache
 
-docker-up:  ## Inicia contenedores
-	$(DOCKER_COMPOSE) up -d
+.PHONY: docker-up
+docker-up:  ## Inicia todos los servicios
+	@echo "$(GREEN)Iniciando contenedores...$(NC)"
+	$(DOCKER_COMPOSE) up -d --remove-orphans
 
-docker-down:  ## Detiene contenedores
-	$(DOCKER_COMPOSE) down
+.PHONY: docker-down
+docker-down:  ## Detiene y limpia contenedores
+	@echo "$(RED)Deteniendo contenedores...$(NC)"
+	$(DOCKER_COMPOSE) down --volumes --remove-orphans
 
-## —— Kubernetes ——
+# —— Kubernetes ——
+.PHONY: k8s-deploy
 k8s-deploy:  ## Despliega en cluster Kubernetes
-	helm upgrade --install $(PROJECT_NAME) ./charts \
+	@echo "$(GREEN)Desplegando en Kubernetes...$(NC)"
+	$(HELM) upgrade --install $(PROJECT_NAME) ./deployments/helm \
 		--namespace $(PROJECT_NAME) \
 		--create-namespace \
-		--values ./charts/values-prod.yaml
+		--values ./deployments/helm/values-$(ENV).yaml \
+		--atomic \
+		--timeout 5m
 
-k8s-logs:  ## Muestra logs de los pods
-	kubectl logs -l app.kubernetes.io/name=$(PROJECT_NAME) --tail=100 -f
+.PHONY: k8s-logs
+k8s-logs:  ## Muestra logs en tiempo real
+	$(KUBECTL) logs -l app.kubernetes.io/name=$(PROJECT_NAME) \
+		--namespace $(PROJECT_NAME) \
+		--tail=100 -f
 
-## —— CI/CD ——
-ci-validate:  ## Valida configuración CI (pre-commit)
-	pre-commit run --all-files
+# —— CI/CD ——
+.PHONY: ci-validate
+ci-validate: lint test  ## Valida código antes de commit
+	@echo "$(GREEN)Validación completada!$(NC)"
 
-ci-security:  ## Escaneo de seguridad
-	trivy fs --security-checks vuln,config .
+.PHONY: ci-security
+ci-security:  ## Escaneo de seguridad completo
+	trivy fs --security-checks vuln,config,secret .
+	grype dir:.
 
-## —— Utils ——
+# —— Utilitarios ——
+.PHONY: clean
 clean:  ## Limpia archivos temporales
-	find . -type d -name "__pycache__" -exec rm -r {} +
-	rm -rf .coverage htmlcov
+	@echo "$(GREEN)Limpieza de archivos...$(NC)"
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	rm -rf .coverage coverage.xml htmlcov test-results.xml
+	$(DOCKER) system prune -f
 
-.PHONY: help install install-prod env-file run test lint format docker-build docker-up docker-down k8s-deploy k8s-logs ci-validate ci-security clean
+.PHONY: generate-diagrams
+generate-diagrams:  ## Genera diagramas de arquitectura
+	$(PYTHON) tools/generate_diagrams.py \
+		--input docs/architecture/specs \
+		--format mermaid \
+		--output docs/architecture/diagrams
+
+# —— Meta Targets ——
+.DEFAULT_GOAL := help
