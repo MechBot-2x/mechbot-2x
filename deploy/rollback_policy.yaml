@@ -1,0 +1,11 @@
+```yaml
+conditions:
+  - metric: error_rate
+    threshold: "5%"
+    duration: 5m
+  - metric: latency_p99
+    threshold: "2000ms"
+actions:
+  - type: rollback
+    targetRevision: previous_stable
+```
