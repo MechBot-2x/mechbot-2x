@@ -1,0 +1,12 @@
+```yaml
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+```
