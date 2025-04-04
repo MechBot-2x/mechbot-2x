@@ -146,7 +146,7 @@ warn_no_return = true
 warn_return_any = true
 check_untyped_defs = true
 
-[tool.ruff]
+[tool.ruff.lint] # Sección corregida
 # Configuración de Análisis Estático
 line-length = 120
 select = [
