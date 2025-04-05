@@ -1,0 +1,32 @@
+```yaml
+name: Build Documentation
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          pip install diagrams graphviz
+          sudo apt-get install -y graphviz
+      
+      - name: Generate diagrams
+        run: |
+          python scripts/generate_diagrams.py
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation
+          path: |
+            docs/
+            diagrams/
+```
