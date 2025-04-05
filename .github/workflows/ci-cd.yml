@@ -44,10 +44,10 @@ jobs:
 
       - name: Static Analysis
         run: |
-          === RUFF ===
-          ruff check --config=pyproject.toml src/ tests/
-          
-          === MYPY ===
+         echo "=== RUFF ==="
+         ruff check --config=pyproject.toml src/ tests/
+    
+          echo "=== MYPY ==="
           mypy --config-file=pyproject.toml src/
 
       - name: Unit Tests
