@@ -88,7 +88,3 @@ jobs:
       - run: |
           docker-compose -f docker-compose.test.yml up -d
                    pytest tests/integration/
-                  
-                  
-                  
-                  [![MechBot 2.0x](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/ci-cd.yml)
