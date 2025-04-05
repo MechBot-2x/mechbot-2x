@@ -1,4 +1,6 @@
-# **Protocolo de Comunicación 4D - MechBot 2.0x**  
+    FISICA -->|Codificación| PLATAFORMA
+    PLATAFORMA -->|Serialización| SERVICIOS
+    SERVICIOS -->|Optimización| APLICACION# **Protocolo de Comunicación 4D - MechBot 2.0x**  
 **Documento:** `4D_COMMS_PROTOCOL.md`  
 **Ubicación:** `docs/architecture/4D_COMMS_PROTOCOL.md`  
 **Responsables:** Equipo de Arquitectura - DevOps  
@@ -6,26 +8,27 @@
 ## **Diagrama de Protocolos por Capa**  
 ```mermaid  
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff2cc'}}}%%  
-flowchart TD  
-    subgraph FÍSICA["Capa Física"]  
-        A[Protocolo CAN 2.0B]  
-        B[ISO 15765-4]  
-    end  
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff2cc'}}}%%
+flowchart TD
+    subgraph FISICA["Capa Física"]
+        A[Protocolo CAN 2.0B]
+        B[ISO 15765-4]
+    end
 
-    subgraph PLATAFORMA["Capa Plataforma"]  
-        C[gRPC-stream]  
-        D[HTTP/2]  
-    end  
+    subgraph PLATAFORMA["Capa Plataforma"]
+        C[gRPC-stream]
+        D[HTTP/2]
+    end
 
-    subgraph SERVICIOS["Capa Servicios"]  
-        E[Protobuf v3]  
-        F[Avro Schema]  
-    end  
+    subgraph SERVICIOS["Capa Servicios"]
+        E[Protobuf v3]
+        F[Avro Schema]
+    end
 
-    subgraph APLICACIÓN["Capa Aplicación"]  
-        G[WebSocket]  
-        H[gRPC-Web]  
-    end  
+    subgraph APLICACION["Capa Aplicación"]
+        G[WebSocket]
+        H[gRPC-Web]
+    end
 
     FÍSICA -->|Codificación| PLATAFORMA  
     PLATAFORMA -->|Serialización| SERVICIOS  
