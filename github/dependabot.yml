@@ -1,0 +1,8 @@
+```yaml
+updates:
+  - package-ecosystem: "npm"
+    schedule: 
+      interval: "weekly"
+      time: "08:00"  # GMT-4
+    reviewers: ["@mechmind-dwv/team-core"]
+```
