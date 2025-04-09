@@ -91,99 +91,6 @@ ia = [
 ]
 
 # ------------------------------------
-# =============================================
-# CONFIGURACIÓN DEL PROYECTO - MECHBOT CORE 2.0
-# =============================================
-[project]
-name = "mechbot-core"
-version = "2.0.1"
-description = """
-Plataforma de diagnóstico automotriz inteligente que combina:
-- Análisis predictivo mediante IA
-- Integración con sistemas vehiculares OBD-II/CAN
-- Gestión de talleres en tiempo real
-"""
-authors = [
-    {name = "Equipo de Ingeniería MechBot", email = "core-dev@mechbot.tech"},
-    {name = "Departamento de IA", email = "ai-team@mechbot.tech"},
-    {name = "Integración Vehicular", email = "firmware@mechbot.tech"}
-]
-license = {text = "Apache-2.0"}
-requires-python = ">=3.10"
-readme = "README.md"
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Intended Audience :: Automotive Technicians",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Operating System :: POSIX :: Linux",
-    "Programming Language :: Python :: 3.10"
-]
-
-# ========================
-# ARQUITECTURA DEL SISTEMA
-# ========================
-[build-system]
-requires = ["setuptools>=65", "wheel"]
-build-backend = "setuptools.build_meta"
-
-# =================================
-# DEPENDENCIAS DEL NÚCLEO PRINCIPAL
-# =================================
-dependencies = [
-    # Capa de API y Comunicaciones
-    "fastapi==0.95.2",          # Framework API web (ASGI)
-    "uvicorn[standard]==0.22.0", # Servidor ASGI optimizado
-    "starlette==0.27.0",        # Componentes ASGI base
-
-    # Seguridad y Autenticación
-    "python-jose[cryptography]==3.3.0",  # Implementación JWT
-    "passlib[bcrypt,argon2]==1.7.4",     # Hashing avanzado
-    "cryptography==41.0.3",     # Cifrado AES-256/GCM
-
-    # Manejo de Datos
-    "pydantic[email]==1.10.7",  # Validación de datos
-    "orjson==3.9.5",            # Serialización JSON ultra-rápida
-    "python-dotenv==1.0.0",     # Gestión de entornos
-
-    # Concurrencia y Paralelismo
-    "anyio==3.6.2",             # Abstracción asíncrona
-    "concurrent-log-handler==0.9.24", # Logging thread-safe
-
-    # Monitorización del Sistema
-    "loguru==0.7.0",            # Logging estructurado
-    "psutil==5.9.5",            # Monitoreo de recursos
-]
-
-# ====================================
-# MÓDULOS ESPECIALIZADOS (OPTIONAL-DEPS)
-# ====================================
-[project.optional-dependencies]
-
-# ------------------------------------
-# Módulo de Inteligencia Artificial
-# ------------------------------------
-ia = [
-    # Runtime de Inferencia
-    "onnxruntime-gpu==1.14.1",  # Aceleración CUDA
-
-    # Frameworks de ML
-    "xgboost==1.7.5",           # Para diagnóstico predictivo
-    "lightgbm==3.3.5",          # Modelos eficientes
-
-    # Procesamiento de Señales
-    "scipy==1.10.1",            # Análisis de vibraciones
-    "scikit-learn==1.5.1",      # Pre-procesamiento
-
-    # Visión por Computador
-    "opencv-python==4.7.0.72",  # Análisis de imágenes
-    "Pillow==9.5.0",            # Procesamiento de imágenes
-
-    # NLP para informes
-    "transformers[torch]==4.30.2",
-    "spacy==3.5.3"
-]
-
-# ------------------------------------
 # Módulo de Integración Vehicular
 # ------------------------------------
 obd = [
@@ -243,6 +150,10 @@ check_untyped_defs = true
 # Configuración de Análisis Estático
 line-length = 120
 
+[tool.ruff]
+# Configuración de Análisis Estático
+line-length = 120
+
 [tool.ruff.lint]
 select = [
     "E",   # Pycodestyle Errors
@@ -272,7 +183,6 @@ exclude = [
     "**/_pb2*.py",
     "**/generated/**"
 ]
-
 
 [tool.black]
 line-length = 120
