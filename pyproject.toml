@@ -154,6 +154,10 @@ line-length = 120
 # Configuración de Análisis Estático
 line-length = 120
 
+[tool.ruff]
+# Configuración de Análisis Estático
+line-length = 120
+
 [tool.ruff.lint]
 select = [
     "E",   # Pycodestyle Errors
@@ -175,8 +179,13 @@ ignore = [
     "E501"   # Line too long (manejado por black)
 ]
 unfixable = ["T20", "F401"]
-
 target-version = "py310"
+
+# Exclude generated protobuf files
+exclude = [
+    "**/_pb2*.py",
+    "**/generated/**"
+]
 
 # Excluir archivos de protobuf generados
 exclude = [
