@@ -1,8 +1,5 @@
-```yaml
-   # En pod-security-policy.yaml
-   spec:
+    spec:
      readOnlyRootFilesystem: true
      allowPrivilegeEscalation: false
      capabilities:
        drop: ["ALL"]
-   ```
