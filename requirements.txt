@@ -21,7 +21,7 @@ pandas==2.0.3
 ### Machine Learning ###
 onnxruntime==1.21.0
 xgboost==1.7.5
-transformers[torch]==4.36.0
+transformers[torch]==4.48.0
 scikit-learn==1.5.1
 
 ### Bases de Datos ###
