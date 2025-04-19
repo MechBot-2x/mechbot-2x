@@ -20,11 +20,16 @@ jobs:
       - name: Generate diagrams
         run: |
           python scripts/generate_diagrams.py
+          # Verificación de archivos generados
+          ls -la docs/ || echo "No docs directory found"
+          ls -la diagrams/ || echo "No diagrams directory found"
       
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  # Versión actualizada
         with:
           name: documentation
           path: |
             docs/
             diagrams/
+          if-no-files-found: warn
+          retention-days: 3
