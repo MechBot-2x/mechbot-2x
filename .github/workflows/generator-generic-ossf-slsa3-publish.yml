@@ -1,66 +1,106 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# This workflow lets you generate SLSA provenance file for your project.
-# The generation satisfies level 3 for the provenance requirements - see https://slsa.dev/spec/v0.1/requirements
-# The project is an initiative of the OpenSSF (openssf.org) and is developed at
-# https://github.com/slsa-framework/slsa-github-generator.
-# The provenance file can be verified using https://github.com/slsa-framework/slsa-verifier.
-# For more information about SLSA and how it improves the supply-chain, visit slsa.dev.
-
-name: SLSA generic generator
+name: SLSA3 Provenance Generator for MechBot 2.0
 on:
   workflow_dispatch:
   release:
     types: [created]
+    tags: ['v*.*.*']
+
+env:
+  ARTIFACTS_DIR: 'dist'
+  BUILD_SCRIPT: './scripts/build.sh'
+  PROVENANCE_FILENAME: 'multiple.intoto.jsonl'
 
 jobs:
   build:
+    name: Build artifacts and generate hashes
     runs-on: ubuntu-latest
     outputs:
-      digests: ${{ steps.hash.outputs.digests }}
+      artifact_digests: ${{ steps.generate_hashes.outputs.hashes }}
+      artifact_names: ${{ steps.generate_hashes.outputs.artifact_list }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necesario para el versionado preciso
 
-      # ========================================================
-      #
-      # Step 1: Build your artifacts.
-      #
-      # ========================================================
-      - name: Build artifacts
+      - name: Set up build environment
         run: |
-            # These are some amazing artifacts.
-            echo "artifact1" > artifact1
-            echo "artifact2" > artifact2
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+          pip install --upgrade pip setuptools wheel
 
-      # ========================================================
-      #
-      # Step 2: Add a step to generate the provenance subjects
-      #         as shown below. Update the sha256 sum arguments
-      #         to include all binaries that you generate
-      #         provenance for.
-      #
-      # ========================================================
-      - name: Generate subject for provenance
-        id: hash
+      - name: Build project artifacts
         run: |
-          set -euo pipefail
+          mkdir -p ${{ env.ARTIFACTS_DIR }}
+          chmod +x ${{ env.BUILD_SCRIPT }}
+          ${{ env.BUILD_SCRIPT }} ${{ env.ARTIFACTS_DIR }}
+          
+          # Validar que se crearon artefactos
+          if [ -z "$(ls -A ${{ env.ARTIFACTS_DIR }})" ]; then
+            echo "::error::No artifacts generated in ${{ env.ARTIFACTS_DIR }}"
+            exit 1
+          fi
 
-          # List the artifacts the provenance will refer to.
-          files=$(ls artifact*)
-          # Generate the subjects (base64 encoded).
-          echo "hashes=$(sha256sum $files | base64 -w0)" >> "${GITHUB_OUTPUT}"
+      - name: Generate artifact hashes
+        id: generate_hashes
+        run: |
+          cd ${{ env.ARTIFACTS_DIR }}
+          files=$(ls *)
+          
+          # Validar tipos de archivos
+          for file in $files; do
+            if [[ ! "$file" =~ \.(whl|tar\.gz|zip)$ ]]; then
+              echo "::warning::Skipping non-standard artifact: $file"
+              continue
+            fi
+            echo "Processing artifact: $file"
+            sha256sum "$file" >> hashes.txt
+          done
+          
+          # Codificar resultados en base64
+          echo "artifact_list=$(echo $files | base64 -w0)" >> $GITHUB_OUTPUT
+          echo "hashes=$(cat hashes.txt | base64 -w0)" >> $GITHUB_OUTPUT
+          
+          # Mostrar resumen
+          echo "=== ARTIFACT HASHES ==="
+          cat hashes.txt
 
   provenance:
+    name: Generate SLSA3 Provenance
     needs: [build]
     permissions:
-      actions: read   # To read the workflow path.
-      id-token: write # To sign the provenance.
-      contents: write # To add assets to a release.
+      actions: read
+      id-token: write
+      contents: write
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.4.0
     with:
-      base64-subjects: "${{ needs.build.outputs.digests }}"
-      upload-assets: true # Optional: Upload to a new release
+      base64-subjects: "${{ needs.build.outputs.artifact_digests }}"
+      upload-assets: true
+      asset-name: "${{ needs.build.outputs.artifact_names }}"
+      provenance-name: "${{ env.PROVENANCE_FILENAME }}"
+
+  verify:
+    name: Verify Provenance
+    needs: [provenance]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts
+          path: ${{ env.ARTIFACTS_DIR }}
+
+      - name: Download provenance
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PROVENANCE_FILENAME }}
+          path: .
+
+      - name: Verify provenance
+        uses: slsa-framework/slsa-verifier@v2.3.0
+        with:
+          artifact-path: "${{ env.ARTIFACTS_DIR }}/*"
+          provenance-path: "${{ env.PROVENANCE_FILENAME }}"
+          source-uri: "github.com/${{ github.repository }}"
+          source-tag: "${{ github.ref_name }}"
