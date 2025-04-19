@@ -12,7 +12,8 @@ from diagrams.onprem.iac import Ansible
 from diagrams.onprem.monitoring import Grafana
 
 # Configuración del sistema
-CONFIG = {
+CONFIG =
+{
     "output_dir": Path("docs/technical/architecture"),
     "formats": ["png", "svg"],
     "theme": "dark",
