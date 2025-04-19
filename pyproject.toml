@@ -150,14 +150,6 @@ check_untyped_defs = true
 # Configuración de Análisis Estático
 line-length = 120
 
-[tool.ruff]
-# Configuración de Análisis Estático
-line-length = 120
-
-[tool.ruff]
-# Configuración de Análisis Estático
-line-length = 120
-
 [tool.ruff.lint]
 select = [
     "E",   # Pycodestyle Errors
