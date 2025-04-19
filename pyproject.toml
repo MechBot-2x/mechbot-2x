@@ -173,12 +173,6 @@ ignore = [
 unfixable = ["T20", "F401"]
 target-version = "py310"
 
-# Exclude generated protobuf files
-exclude = [
-    "**/_pb2*.py",
-    "**/generated/**"
-]
-
 # Excluir archivos de protobuf generados
 exclude = [
     "**/_pb2*.py",
