@@ -3,17 +3,19 @@
 # =============================================
 [project]
 name = "mechbot-core"
-version = "2.0.1"
+dynamic = ["version"]  # Versión ahora es dinámica
 description = """
 Plataforma de diagnóstico automotriz inteligente que combina:
-- Análisis predictivo mediante IA
-- Integración con sistemas vehiculares OBD-II/CAN
+- Análisis predictivo mediante IA/ML
+- Integración con sistemas vehiculares (OBD-II/CAN)
 - Gestión de talleres en tiempo real
 """
 authors = [
     {name = "Equipo de Ingeniería MechBot", email = "core-dev@mechbot.tech"},
     {name = "Departamento de IA", email = "ai-team@mechbot.tech"},
-    {name = "Integración Vehicular", email = "firmware@mechbot.tech"}
+]
+maintainers = [
+    {name = "Soporte Técnico", email = "support@mechbot.tech"}
 ]
 license = {text = "Apache-2.0"}
 requires-python = ">=3.10"
@@ -21,143 +23,136 @@ readme = "README.md"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Automotive Technicians",
+    "Programming Language :: Python :: 3.10",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Operating System :: POSIX :: Linux",
-    "Programming Language :: Python :: 3.10"
+    "Typing :: Typed"
 ]
 
 # ========================
 # ARQUITECTURA DEL SISTEMA
 # ========================
 [build-system]
-requires = ["setuptools>=65", "wheel"]
+requires = [
+    "setuptools>=68.0.0",
+    "wheel>=0.40.0",
+    "setuptools_scm>=8.0.0"  # Para versionado automático
+]
 build-backend = "setuptools.build_meta"
 
 # =================================
 # DEPENDENCIAS DEL NÚCLEO PRINCIPAL
 # =================================
 dependencies = [
-    # Capa de API y Comunicaciones
-    "fastapi==0.95.2",
-    "uvicorn[standard]==0.22.0",
-    "starlette==0.27.0",
+    # Capa de API
+    "fastapi>=0.95.2,<1.0.0",
+    "uvicorn[standard]>=0.22.0,<1.0.0",
+    "starlette>=0.27.0,<0.28.0",
 
-    # Seguridad y Autenticación
-    "python-jose[cryptography]==3.3.0",
-    "passlib[bcrypt,argon2]==1.7.4",
-    "cryptography==41.0.3",
+    # Seguridad
+    "python-jose[cryptography]>=3.3.0,<4.0.0",
+    "passlib[bcrypt,argon2]>=1.7.4,<2.0.0",
+    "cryptography>=41.0.3,<42.0.0",
 
-    # Manejo de Datos
-    "pydantic[email]==1.10.7",
-    "orjson==3.9.5",
-    "python-dotenv==1.0.0",
+    # Datos
+    "pydantic>=1.10.7,<2.0.0",
+    "orjson>=3.9.5,<4.0.0",
+    "python-dotenv>=1.0.0,<2.0.0",
 
-    # Concurrencia y Paralelismo
-    "anyio==3.6.2",
-    "concurrent-log-handler==0.9.24",
-
-    # Monitorización del Sistema
-    "loguru==0.7.0",
-    "psutil==5.9.5"
+    # Sistema
+    "anyio>=3.6.2,<4.0.0",
+    "loguru>=0.7.0,<0.8.0",
+    "psutil>=5.9.5,<6.0.0"
 ]
 
 # ====================================
-# MÓDULOS ESPECIALIZADOS (OPTIONAL-DEPS)
+# MÓDULOS ESPECIALIZADOS
 # ====================================
 [project.optional-dependencies]
-ia = [
-    "onnxruntime-gpu==1.14.1",
-    "xgboost==1.7.5",
-    "lightgbm==3.3.5",
-    "scipy==1.10.1",
-    "scikit-learn==1.5.1",
-    "opencv-python==4.7.0.72",
-    "Pillow==9.5.0",
-    "transformers[torch]==4.30.2",
-    "spacy==3.5.3"
+ai = [
+    "onnxruntime-gpu>=1.14.1,<2.0.0",
+    "scikit-learn>=1.5.1,<2.0.0",
+    "transformers[torch]>=4.30.2,<5.0.0"
 ]
 
-obd = [
-    "python-obd==0.7.1",
-    "canmatrix==0.9.5",
-    "cantools==37.2.0",
-    "pyserial==3.5"
+vehicle = [
+    "python-obd>=0.7.1,<0.8.0",
+    "cantools>=37.2.0,<38.0.0",
+    "pyserial>=3.5,<4.0"
 ]
 
-taller = [
-    "grpcio==1.54.3",
-    "grpcio-tools==1.54.2",
-    "protobuf==4.23.2",
-    "googleapis-common-protos==1.59.1"
+workshop = [
+    "grpcio>=1.54.3,<2.0.0",
+    "protobuf>=4.23.2,<5.0.0"
+]
+
+dev = [
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0"
 ]
 
 # ====================================
-# CONFIGURACIÓN DE HERRAMIENTAS DE DESARROLLO
+# CONFIGURACIÓN DE HERRAMIENTAS
 # ====================================
-[tool.pytest.ini_options]
-testpaths = [
-    "tests/unit",
-    "tests/integration",
-    "tests/validation"
+[tool.setuptools_scm]
+write_to = "src/mechbot/_version.py"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+select = [
+    "E", "W", "F",  # Errores básicos
+    "I",             # Importaciones
+    "UP",            # Modernización de código
+    "RUF",           # Reglas específicas de Ruff
 ]
-asyncio_mode = "auto"
-addopts = "-v --cov=src --cov-report=term --cov-report=xml --junitxml=test-results.xml"
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore::ResourceWarning"
+ignore = [
+    "D203", "D212",  # Docstrings
+    "E501"           # Longitud de línea (manejado por formateador)
 ]
-log_level = "INFO"
-log_cli = true
+unfixable = ["F401"]  # Imports no usados
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+skip-string-normalization = true
 
 [tool.mypy]
 python_version = "3.10"
 strict = true
 warn_unused_configs = true
 disallow_untyped_defs = true
-disallow_incomplete_defs = true
 warn_redundant_casts = true
 warn_unused_ignores = true
-warn_no_return = true
-warn_return_any = true
-check_untyped_defs = true
-
-[tool.ruff]
-line-length = 120
-
-[tool.ruff.lint]
-select = ["E", "W", "F", "I", "B", "C", "A", "N", "UP", "YTT", "RUF"]
-ignore = ["D203", "D212", "B008", "E501"]
-unfixable = ["T20", "F401"]
-target-version = "py310"
-
-exclude = [
-    "**/_pb2*.py",
-    "**/generated/**"
-]
-
-[tool.black]
-line-length = 120
-target-version = ['py310']
-skip-string-normalization = true
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.venv
-  | build
-  | dist
-  | protobufs
-)/
-'''
-
-[tool.isort]
-profile = "black"
-line_length = 120
-known_first_party = ["mechbot"]
-sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 
 # ====================================
-# CONFIGURACIÓN DE EMPAQUETADO
+# PRUEBAS Y COBERTURA
+# ====================================
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-v --cov=src --cov-report=term-missing"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::pytest.PytestRemovedIn8Warning"
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = [
+    "**/__init__.py",
+    "**/_version.py"
+]
+
+# ====================================
+# EMPAQUETADO
 # ====================================
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -166,7 +161,7 @@ zip-safe = false
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["mechbot*"]
-exclude = ["tests*", "experimental*", "legacy*"]
-
-[tool.setuptools.dynamic]
-version = {attr = "mechbot.__version__"}
+exclude = [
+    "tests*",
+    "experimental*"
+]
