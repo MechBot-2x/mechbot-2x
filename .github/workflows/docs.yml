@@ -1,16 +1,3 @@
-"""
-SISTEMA DE GENERACIÓN DE DIAGRAMAS TÉCNICOS - MECHBOT CORE v2.0
-
-Este script automatiza la documentación técnica mediante diagramas de arquitectura,
-flujos de datos y topología de red para el sistema MechBot 2.0.
-
-Características principales:
-- Generación de diagramas de arquitectura en 4 capas (Física, Plataforma, Servicios, Aplicación)
-- Documentación de flujos CAN bus y OBD-II
-- Visualización de pipelines de procesamiento IA
-- Exportación multi-formato para documentación técnica
-"""
-
 import os
 import sys
 from pathlib import Path
