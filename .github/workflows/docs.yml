@@ -7,39 +7,38 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - name: Set up Python 3.12
+
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
-      
+
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y graphviz
-      
-      - name: Install Python packages
+          sudo apt-get install -y libjpeg-dev zlib1g-dev graphviz
+
+      - name: Upgrade pip and install Python packages
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install diagrams==0.23.3 pillow==9.5.0
-      
-      - name: Create resources directory
+
+      - name: Create resources directory and placeholders
         run: |
           mkdir -p resources/icons
-          # Esto debería ser reemplazado con la descarga real de tus íconos
+          # Reemplaza esto con la descarga real o generación de íconos
           touch resources/icons/{can_bus,obd,ecu,dashboard,sensor,mobile,gateway}.png
-      
+
       - name: Generate architecture diagrams
         run: |
           python scripts/generate_diagrams.py
           echo "Generated files:"
           ls -R docs/technical/architecture/
-      
+
       - name: Upload documentation artifacts
         uses: actions/upload-artifact@v4
         with:
           name: technical-docs
-          path: |
-            docs/technical/architecture/
+          path: docs/technical/architecture/
           if-no-files-found: error
           retention-days: 7
