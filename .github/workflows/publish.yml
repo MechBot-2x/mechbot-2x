@@ -3,13 +3,14 @@ name: Publish MechBot 2.0x (Multi-Arch/Helm)
 on:
   push:
     tags:
-      - 'v*.*.*'  # Ej: v2.1.0, v3.0.0-rc1
-  workflow_dispatch:  # Ejecución manual
+      - 'v*.*.*' # Ej: v2.1.0, v3.0.0-rc1
+  workflow_dispatch: # Ejecución manual
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     environment: production
+    
     steps:
       # Descarga de artifacts del job de build
       - name: Download build artifacts
@@ -51,10 +52,10 @@ jobs:
             *Cluster*: `mechbot-prod-cluster`
             *Commit*: `${{ github.sha }}`
             *Helm Release*: `mechbot-${{ github.run_number }}`
-            # En CI/CD (publish.yml
-      # En CI/CD
+
+      # Escaneo de seguridad de la imagen
       - name: Scan image
         uses: aquasecurity/trivy-action@0.9
         with:
-          image-ref: ${{ steps.meta.outputs.tags }}
-             severity:'CRITICAL,HIGH' 
+          image-ref: mechmind/mechbot-api:${{ github.ref_name }}
+          severity: 'CRITICAL,HIGH'
