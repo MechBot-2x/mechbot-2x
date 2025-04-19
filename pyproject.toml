@@ -1,9 +1,6 @@
-# =============================================
-# CONFIGURACIÓN DEL PROYECTO - MECHBOT CORE 2.0
-# =============================================
 [project]
 name = "mechbot-core"
-dynamic = ["version"]  # Versión ahora es dinámica
+dynamic = ["version"]
 description = """
 Plataforma de diagnóstico automotriz inteligente que combina:
 - Análisis predictivo mediante IA/ML
@@ -12,7 +9,7 @@ Plataforma de diagnóstico automotriz inteligente que combina:
 """
 authors = [
     {name = "Equipo de Ingeniería MechBot", email = "core-dev@mechbot.tech"},
-    {name = "Departamento de IA", email = "ai-team@mechbot.tech"},
+    {name = "Departamento de IA", email = "ai-team@mechbot.tech"}
 ]
 maintainers = [
     {name = "Soporte Técnico", email = "support@mechbot.tech"}
@@ -26,48 +23,18 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Operating System :: POSIX :: Linux",
-    "Typing :: Typed"
+    "Typing :: Typed",
+    "License :: OSI Approved :: Apache Software License"
 ]
 
-# ========================
-# ARQUITECTURA DEL SISTEMA
-# ========================
 [build-system]
 requires = [
     "setuptools>=68.0.0",
     "wheel>=0.40.0",
-    "setuptools_scm>=8.0.0"  # Para versionado automático
+    "setuptools_scm>=8.0.0"
 ]
 build-backend = "setuptools.build_meta"
 
-# =================================
-# DEPENDENCIAS DEL NÚCLEO PRINCIPAL
-# =================================
-dependencies = [
-    # Capa de API
-    "fastapi>=0.95.2,<1.0.0",
-    "uvicorn[standard]>=0.22.0,<1.0.0",
-    "starlette>=0.27.0,<0.28.0",
-
-    # Seguridad
-    "python-jose[cryptography]>=3.3.0,<4.0.0",
-    "passlib[bcrypt,argon2]>=1.7.4,<2.0.0",
-    "cryptography>=41.0.3,<42.0.0",
-
-    # Datos
-    "pydantic>=1.10.7,<2.0.0",
-    "orjson>=3.9.5,<4.0.0",
-    "python-dotenv>=1.0.0,<2.0.0",
-
-    # Sistema
-    "anyio>=3.6.2,<4.0.0",
-    "loguru>=0.7.0,<0.8.0",
-    "psutil>=5.9.5,<6.0.0"
-]
-
-# ====================================
-# MÓDULOS ESPECIALIZADOS
-# ====================================
 [project.optional-dependencies]
 ai = [
     "onnxruntime-gpu>=1.14.1,<2.0.0",
@@ -89,51 +56,30 @@ workshop = [
 dev = [
     "ruff>=0.1.0",
     "mypy>=1.5.0",
-    "pytest>=7.4.0",
-    "pytest-cov>=4.1.0"
+    "ipdb>=0.13.9"
 ]
 
-# ====================================
-# CONFIGURACIÓN DE HERRAMIENTAS
-# ====================================
+test = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.10.0"
+]
+
 [tool.setuptools_scm]
 write_to = "src/mechbot/_version.py"
+local_scheme = "no-local-version"
 
 [tool.ruff]
 target-version = "py310"
 line-length = 120
-select = [
-    "E", "W", "F",  # Errores básicos
-    "I",             # Importaciones
-    "UP",            # Modernización de código
-    "RUF",           # Reglas específicas de Ruff
-]
-ignore = [
-    "D203", "D212",  # Docstrings
-    "E501"           # Longitud de línea (manejado por formateador)
-]
-unfixable = ["F401"]  # Imports no usados
+select = ["E", "W", "F", "I", "UP", "RUF"]
+ignore = ["D203", "D212", "E501"]
+unfixable = ["F401"]
 
 [tool.ruff.format]
 docstring-code-format = true
 quote-style = "double"
 
-[tool.black]
-line-length = 120
-target-version = ["py310"]
-skip-string-normalization = true
-
-[tool.mypy]
-python_version = "3.10"
-strict = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-
-# ====================================
-# PRUEBAS Y COBERTURA
-# ====================================
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
@@ -146,14 +92,9 @@ filterwarnings = [
 [tool.coverage.run]
 source = ["src"]
 branch = true
-omit = [
-    "**/__init__.py",
-    "**/_version.py"
-]
+parallel = true
+omit = ["**/__init__.py", "**/_version.py"]
 
-# ====================================
-# EMPAQUETADO
-# ====================================
 [tool.setuptools]
 package-dir = {"" = "src"}
 zip-safe = false
@@ -161,7 +102,4 @@ zip-safe = false
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["mechbot*"]
-exclude = [
-    "tests*",
-    "experimental*"
-]
+exclude = ["tests*", "experimental*"]
