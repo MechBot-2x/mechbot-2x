@@ -1,7 +1,7 @@
 name: Build Documentation
 on: [push]
 
-jobs:
+jobs: write and compile 
   build:
     runs-on: ubuntu-latest
     steps:
