@@ -1,6 +1,29 @@
 updates:
   - package-ecosystem: "npm"
-    schedule: 
-      interval: "weekly"
-      time: "08:00"  # GMT-4
-    reviewers: ["@mechmind-dwv/team-core"]
+    schedule:
+      interval: "daily"
+      time: "00:00"  # GMT-4, ejecución diaria a medianoche
+    reviewers:
+      - "@mechmind-dwv/team-core"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "npm"
+
+  - package-ecosystem: "pip"
+    directory: "/"  # Cambia según el lugar donde esté requirements.txt
+    schedule:
+      interval: "daily"
+      time: "00:00"  # GMT-4, ejecución diaria a medianoche
+    reviewers:
+      - "@mechmind-dwv/team-core"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies" 
+      - "python"
