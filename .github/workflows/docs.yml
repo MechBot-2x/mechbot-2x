@@ -1,7 +1,8 @@
 name: Build Documentation
+
 on: [push]
 
-jobs: write and compile 
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +27,7 @@ jobs: write and compile
       - name: Create resources directory and placeholders
         run: |
           mkdir -p resources/icons
-          # Reemplaza esto con la descarga real o generación de íconos
+          # Puedes reemplazar esto por la descarga o generación real de íconos en el futuro
           touch resources/icons/{can_bus,obd,ecu,dashboard,sensor,mobile,gateway}.png
 
       - name: Generate architecture diagrams
