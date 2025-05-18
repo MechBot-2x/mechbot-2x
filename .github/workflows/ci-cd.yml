@@ -78,7 +78,7 @@ jobs:
       base64-subjects: "${{ needs.build.outputs.artifact_digests }}"
       upload-assets: true
       asset-name: "${{ needs.build.outputs.artifact_names }}"
-      provenance-name: "${{ env.PROVENANCE_FILENAME }}"
+      provenance-name: "${{ env.production }}"
 
   verify:
     name: Verify Provenance
