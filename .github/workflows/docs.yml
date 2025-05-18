@@ -34,12 +34,12 @@ jobs:
         run: |
           python scripts/generate_diagrams.py
           echo "Generated files:"
-          ls -R docs/technical/architecture/
+          ls -R docs/architecture/
 
       - name: Upload documentation artifacts
         uses: actions/upload-artifact@v4
         with:
           name: technical-docs
-          path: docs/technical/architecture/
+          path: docs/architecture/
           if-no-files-found: error
           retention-days: 7
