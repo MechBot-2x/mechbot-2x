@@ -2,7 +2,7 @@ updates:
   - package-ecosystem: "npm"
     schedule:
       interval: "daily"
-      time: "00:00"  # GMT-4, ejecución diaria a medianoche
+      time: "00:00"  
     reviewers:
       - "@mechmind-dwv/team-core"
     open-pull-requests-limit: 10
@@ -14,10 +14,10 @@ updates:
       - "npm"
 
   - package-ecosystem: "pip"
-    directory: "/"  # Cambia según el lugar donde esté requirements.txt
+    directory: "/" 
     schedule:
       interval: "daily"
-      time: "00:00"  # GMT-4, ejecución diaria a medianoche
+      time: "00:00"  
     reviewers:
       - "@mechmind-dwv/team-core"
     open-pull-requests-limit: 5
