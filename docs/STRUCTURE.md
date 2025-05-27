@@ -3,12 +3,13 @@
 
 [![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions
 
-```markdown
+
 # Estructura del Proyecto MechBot 2.0x  
 **Arquitectura**: CI/CD + Multi-Cloud (AWS/GCP)  
 
 [![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions)
 
+```markdown
 .
 ├── 📁 backend
 │   ├── 📁 auth                  # Autenticación JWT Zero-Trust
