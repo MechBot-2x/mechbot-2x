@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 from typing import List, Dict
-name: Build Documentation (.github/workflows/docs.yml)
+name: Build Documentation
 on: [push]
 
 from diagrams import Diagram, Cluster
@@ -124,6 +124,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
         print(f"\n✅ Diagramas generados en: {CONFIG['output_dir'].absolute()}")
     except Exception as e:
         print(f"\n❌ Error: {str(e)}", file=sys.stderr)
@@ -136,16 +137,21 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
+          sudo apt-get install -y libjpeg-dev zlib1g-dev graphviz
+      - name: Upgrade pip and install Python packages
           sudo apt-get install -y graphviz
       
       - name: Install Python packages
         run: |
+          python -m pip install --upgrade pip
           pip install --upgrade pip
           pip install diagrams==0.23.3 pillow==9.5.0
+      - name: Create resources directory and placeholders
       
       - name: Create resources directory
         run: |
           mkdir -p resources/icons
+          # Puedes reemplazar esto por la descarga o generación real de íconos en el futuro
           # Esto debería ser reemplazado con la descarga real de tus íconos
           touch resources/icons/{can_bus,obd,ecu,dashboard,sensor,mobile,gateway}.png
       
@@ -153,12 +159,14 @@ jobs:
         run: |
           python scripts/generate_diagrams.py
           echo "Generated files:"
+          ls -R docs/architecture/
           ls -R docs/technical/architecture/
       
       - name: Upload documentation artifacts
         uses: actions/upload-artifact@v4
         with:
           name: technical-docs
+          path: docs/architecture/
           path: |
             docs/technical/architecture/
           if-no-files-found: error
