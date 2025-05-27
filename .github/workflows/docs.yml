@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 from typing import List, Dict
-name: Build Documentation
+name: Build Documentation (.github/workflows/docs.yml)
 on: [push]
 
 from diagrams import Diagram, Cluster
@@ -12,7 +12,6 @@ from diagrams.aws.network import ELB
 from diagrams.custom import Custom
 from diagrams.onprem.iac import Ansible
 from diagrams.onprem.monitoring import Grafana
-
 # Configuración del sistema
 CONFIG =
 {
@@ -22,7 +21,6 @@ CONFIG =
     "dpi": 300,
     "font": "Arial"
 }
-
 class MechBotDiagramGenerator:
     """
     Generador profesional de diagramas para la plataforma MechBot 2.0
@@ -44,7 +42,6 @@ class MechBotDiagramGenerator:
         
         if not (self.config["output_dir"].parent.exists()):
             self.config["output_dir"].parent.mkdir(parents=True)
-
     def generate_core_architecture(self):
         """
         Diagrama de arquitectura principal del sistema MechBot 2.0
@@ -93,7 +90,6 @@ class MechBotDiagramGenerator:
             (can_bus >> lb >> processors >> ml_engine >> dashboard)
             (obd_ii >> k8s >> diag_model >> mobile)
             (sensors >> telemetry >> grafana)
-
     def generate_data_flow(self):
         """Genera diagrama de flujo de datos CAN bus"""
         with Diagram("CAN Bus Data Flow",
@@ -111,7 +107,6 @@ class MechBotDiagramGenerator:
             ecu1 >> gateway >> processor
             ecu2 >> gateway
             processor >> db
-
 if __name__ == "__main__":
     try:
         print("=== MECHBOT DIAGRAM GENERATOR ===")
