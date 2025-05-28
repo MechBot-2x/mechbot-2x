@@ -1,4 +1,3 @@
-```hcl
 module "eks_cluster" {
   source = "terraform-aws-modules/eks/aws"
   cluster_name = "mechbot-prod"
