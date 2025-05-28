@@ -1,4 +1,3 @@
-```markdown
 [![CI/CD Pipeline](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/ci-cd.yml)
 # Architecture Documentation - MechBot 2.0x
 
