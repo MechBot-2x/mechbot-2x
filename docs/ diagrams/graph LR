@@ -1,7 +1,0 @@
-graph LR
-    A[GitHub Issue] --> B[Branch semántico]
-    B --> C[Pre-commit: lint+security]
-    C --> D[CI: build+test]
-    D -->|Aprobado| E[Deploy Dev]
-    E --> F[QA Automation]
-    F -->|✅| G[Promote to Prod]
