@@ -15,7 +15,7 @@ from diagrams.onprem.monitoring import Grafana
 # Configuración del sistema
 CONFIG =
 {
-    "output_dir": Path("docs/technical/architecture"),
+    "output_dir": Path("docs/architecture"),
     "formats": ["png", "svg"],
     "theme": "dark",
     "dpi": 300,
