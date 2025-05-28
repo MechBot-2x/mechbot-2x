@@ -1,6 +1,6 @@
-'flowchart TD'
-    'A[Vehicle] -->|CAN FD 2.0B| B[Edge Node]
+flowchart TD
+    A[Vehicle] -->|CAN FD 2.0B| B[Edge Node]
     B -->|gRPC-stream| C[Cloud Core]
     C --> D{Microservices}
     D --> E[AI Diagnosis]
-    D --> F[3D Parts API]'
+    D --> F[3D Parts API]
