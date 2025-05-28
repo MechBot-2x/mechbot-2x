@@ -18,4 +18,3 @@ terraform plan -out=tfplan
 
 # Aplicar infraestructura
 terraform apply tfplan
-```
