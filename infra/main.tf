@@ -12,7 +12,6 @@ module "eks_cluster" {
 ```
 
 **Comandos**:  
-```bash
 # Planificar cambios
 terraform plan -out=tfplan
 
