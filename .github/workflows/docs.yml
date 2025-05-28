@@ -22,12 +22,12 @@ CONFIG =
     "font": "Arial"
 }
 class MechBotDiagramGenerator:
-    """
+    
     Generador profesional de diagramas para la plataforma MechBot 2.0
     
     Args:
         config (Dict): Configuración de generación
-    """
+
     
     def __init__(self, config: Dict):
         self.config = config
