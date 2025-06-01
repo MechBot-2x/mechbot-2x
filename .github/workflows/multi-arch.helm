@@ -1,5 +1,5 @@
 name: Publish MechBot 2.0x (Multi-Arch/Helm)
-
+multi-arch.helm
 on:
   push:
     tags:
