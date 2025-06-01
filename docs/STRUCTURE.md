@@ -9,7 +9,7 @@
 
 [![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions)
 
-```markdown
+`
 .
 ├── 📁 backend
 │   ├── 📁 auth                  # Autenticación JWT Zero-Trust
