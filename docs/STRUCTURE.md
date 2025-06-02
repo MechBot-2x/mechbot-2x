@@ -67,7 +67,7 @@
 ├── .env.sample                  # Plantilla variables
 ├── Makefile                     # Automatización
 └── pyproject.toml               # Dependencias Python
-
+```
 
 ### 🔍 Explicación de Directorios Clave
 
