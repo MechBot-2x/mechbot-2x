@@ -1,6 +1,3 @@
-### 🛠️ Workflow de Desarrollo
-
-mermaid
 graph LR
     A[GitHub Issue] --> B[Branch semántico]
     B --> C[Pre-commit: lint+security]
