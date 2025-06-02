@@ -1,4 +1,3 @@
-```markdown
 # Estructura del Proyecto MechBot 2.0x  
 **Arquitectura**: CI/CD + Multi-Cloud (AWS/GCP)  
 
@@ -9,6 +8,11 @@
 **Arquitectura**: CI/CD + Multi-Cloud (AWS/GCP)  
 
 [![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions)
+**Equipo Técnico MechBot 2.0x**  
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)  
+*Actualizado: 2025-04-02*  
+
+```markdown
 .
 ├── 📁 backend
 │   ├── 📁 auth                  # Autenticación JWT Zero-Trust
