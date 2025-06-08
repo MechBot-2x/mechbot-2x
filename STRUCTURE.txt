@@ -1,0 +1,72 @@
+## **🏗️ Estructura del Proyecto (Mejorada)**  
+
+```bash
+mechbot-2x/
+├── 📁 .github/
+│   └── 📁 workflows/
+│       ├── ci-cd.yml            # Pipeline CI/CD principal
+│       └── release.yml          # Despliegues automáticos
+│
+├── 📁 backend/
+│   ├── 📁 auth/                 # Autenticación Zero-Trust
+│   │   ├── jwt_manager.py       # JWT con HS512 + Kyber (PQC)
+│   │   └── oauth_schemas.py     # Modelos Pydantic v2
+│   │
+│   ├── 📁 diagnosis/            # Núcleo de IA
+│   │   ├── ml_models/           # Modelos ONNX optimizados
+│   │   │   ├── xgboost-v3.onnx  # Para diagnóstico rápido
+│   │   │   └── bert-multi.onnx  # Análisis multilingüe
+│   │   └── realtime_processing/ # Procesamiento en tiempo real
+│   │       ├── spark_stream.py  # Integración con Kafka
+│   │       └── fault_codes.db   # Base de datos de códigos de error (SAE J2012)
+│   │
+│   └── 📁 workshop-integration/ # Conexión con talleres
+│       ├── protos/              # Definiciones gRPC (.proto)
+│       │   └── diagnosis.proto
+│       └── salesforce_adapter/  # Integración con CRM
+│           └── soql_queries.json
+│
+├── 📁 frontend/
+│   ├── 📁 public/               # Assets estáticos
+│   │   └── models/             # Modelos 3D (GLTF comprimido)
+│   │       ├── engine.glb       # Motor interactivo
+│   │       └── transmission.glb # Transmisión en 3D
+│   │
+│   ├── 📁 src/
+│   │   ├── hooks/              # Hooks personalizados de React
+│   │   │   └── useTelemetry.js # Gestión de WebSockets
+│   │   └── components/AR/      # Componentes de Realidad Aumentada
+│   │       ├── EngineViewer.js # Renderizado WebGL
+│   │       └── FaultOverlay.js # Anotaciones 3D interactivas
+│   │
+│   └── next.config.js          # Configuración SSR/ISR
+│
+├── 📁 infrastructure/
+│   ├── 📁 k8s/                 # Configuración Kubernetes
+│   │   ├── values-prod.yaml    # Autoescalado (HPA)
+│   │   └── istio-gateway.yaml  # Gestión de tráfico
+│   │
+│   ├── 📁 terraform/           # Infraestructura como Código
+│   │   ├── modules/eks/        # Cluster AWS EKS
+│   │   └── monitoring/         # Alertas de Prometheus
+│   │
+│   └── docker-compose.yml      # Entorno de desarrollo local
+│
+├── 📁 tests/
+│   ├── e2e/                    # Pruebas End-to-End
+│   │   └── diagnosis-flow.spec.js  # Flujo de diagnóstico con Playwright
+│   ├── integration/            # Pruebas de integración
+│   │   └── test_grpc_service.py    # gRPC + PostgreSQL
+│   └── unit/                   # Pruebas unitarias
+│       └── test_jwt_manager.py  # 100% cobertura
+│
+├── 📁 scripts/
+│   ├── data-pipeline/          # ETL con AWS Glue
+│   │   └── transform_obd.py    # Procesamiento de datos OBD-II
+│   └── security/              # Auditorías de seguridad
+│       └── cis_scan.sh         # Escaneo diario CIS Benchmark
+│
+├── .env.sample                 # Plantilla de variables de entorno
+├── Makefile                    # Comandos automatizados
+└── pyproject.toml              # Configuración PEP-621
+```
