@@ -1,5 +1,6 @@
 # MechBot 2.0x - Plataforma de Diagnóstico Automotriz Inteligente
 [![CIStatus](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/ci-cd.yml/badge.svg)
+
 [![MechBot Logo](/mechbot-logo.png)  
 *Tecnología con propósito, innovación con precisión*
 
@@ -93,6 +94,6 @@ kubectl create cluster mechbot-prod \
 
 ---
 
-**Equipo MechBot 2.0x**  
+**Equipo MechBot 2.0x**
 [![Contribuidores](https://img.shields.io/github/contributors/mechmind-dwv/mechbot-2x)]()  
 *Documentación actualizada: 2025-04-01*
