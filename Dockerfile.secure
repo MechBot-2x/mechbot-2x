@@ -1,4 +1,3 @@
-# Dockerfile.secure
 FROM python:3.10-slim
 
 USER mechbot:mechbot  # Usuario no-root
