@@ -1,106 +1,98 @@
-name: SLSA3 Provenance Generator for MechBot 2.0
+name: CI/CD Pipeline
+on: [push, pull_request]
 on:
-  workflow_dispatch:
-  release:
-    types: [created]
-    tags: ['v*.*.*']
+  push:
+    branches: [ main, dev ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ '*' ]
 
-env:
-  ARTIFACTS_DIR: 'dist'
-  BUILD_SCRIPT: './scripts/build.sh'
-  PROVENANCE_FILENAME: 'multiple.intoto.jsonl'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build artifacts and generate hashes
+  build-and-test:
     runs-on: ubuntu-latest
-    outputs:
-      artifact_digests: ${{ steps.generate_hashes.outputs.hashes }}
-      artifact_names: ${{ steps.generate_hashes.outputs.artifact_list }}
-
+  quality-assurance:
+    name: Quality Gate
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    
     steps:
-      - name: Checkout repository
+      - uses: actions/checkout@v3
+      - name: Set up Python
+      - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Necesario para el versionado preciso
+          fetch-depth: 0
+          submodules: recursive
 
-      - name: Set up build environment
+      - name: Configure Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+          cache-dependency-path: '**/requirements.txt'
+
+      - name: Install Core Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential
-          pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade pip wheel
+          pip install -e .[test,security]
+          pip install ruff==0.3.7 mypy==1.8.0
 
-      - name: Build project artifacts
+      - name: Environment Setup
         run: |
-          mkdir -p ${{ env.ARTIFACTS_DIR }}
-          chmod +x ${{ env.BUILD_SCRIPT }}
-          ${{ env.BUILD_SCRIPT }} ${{ env.ARTIFACTS_DIR }}
-          
-          # Validar que se crearon artefactos
-          if [ -z "$(ls -A ${{ env.ARTIFACTS_DIR }})" ]; then
-            echo "::error::No artifacts generated in ${{ env.ARTIFACTS_DIR }}"
-            exit 1
-          fi
+          cp env.sample .env
+          echo "MECHBOT_ENV=ci" >> .env
+          echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
 
-      - name: Generate artifact hashes
-        id: generate_hashes
+      - name: Static Analysis
         run: |
-          cd ${{ env.ARTIFACTS_DIR }}
-          files=$(ls *)
+          echo "=== RUFF ==="
+          ruff check --config=pyproject.toml src/ tests/
           
-          # Validar tipos de archivos
-          for file in $files; do
-            if [[ ! "$file" =~ \.(whl|tar\.gz|zip)$ ]]; then
-              echo "::warning::Skipping non-standard artifact: $file"
-              continue
-            fi
-            echo "Processing artifact: $file"
-            sha256sum "$file" >> hashes.txt
-          done
-          
-          # Codificar resultados en base64
-          echo "artifact_list=$(echo $files | base64 -w0)" >> $GITHUB_OUTPUT
-          echo "hashes=$(cat hashes.txt | base64 -w0)" >> $GITHUB_OUTPUT
-          
-          # Mostrar resumen
-          echo "=== ARTIFACT HASHES ==="
-          cat hashes.txt
+          echo "=== MYPY ==="
+          mypy --config-file=pyproject.toml src/
 
-  provenance:
-    name: Generate SLSA3 Provenance
-    needs: [build]
-    permissions:
-      actions: read
-      id-token: write
-      contents: write
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.4.0
-    with:
-      base64-subjects: "${{ needs.build.outputs.artifact_digests }}"
-      upload-assets: true
-      asset-name: "${{ needs.build.outputs.artifact_names }}"
-      provenance-name: "${{ env.production }}"
+      - name: Unit Tests
+        run: |
+          pytest \
+            --cov=src \
+            --cov-report=xml \
+            --cov-report=term \
+            --durations=10 \
+            tests/unit/
 
-  verify:
-    name: Verify Provenance
-    needs: [provenance]
-    runs-on: ubuntu-latest
+      - name: Security Scan
+        run: |
+          pip install safety
+          safety check --full-report
+          bandit -r src/
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+
+  integration-test:
+    name: Integration Suite
+    needs: quality-assurance
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: artifacts
-          path: ${{ env.ARTIFACTS_DIR }}
-
-      - name: Download provenance
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ env.PROVENANCE_FILENAME }}
-          path: .
-
-      - name: Verify provenance
-        uses: slsa-framework/slsa-verifier@v2.3.0
-        with:
-          artifact-path: "${{ env.ARTIFACTS_DIR }}/*"
-          provenance-path: "${{ env.PROVENANCE_FILENAME }}"
-          source-uri: "github.com/${{ github.repository }}"
-          source-tag: "${{ github.ref_name }}"
+      - uses: actions/checkout@v4
+      - run: |
+          pip install -e .[test]
+          make lint
+          pytest --cov=src
+          docker-compose -f docker-compose.test.yml up -dAdd commentMore actions
+          pytest tests/integration/
