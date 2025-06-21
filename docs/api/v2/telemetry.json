@@ -1,0 +1,9 @@
+## Vehicle Telemetry API
+Request:
+{
+  "vin": "1HGCM82633A123456",
+  "params": {
+    "rpm": 3200,
+    "temp": 92
+  }
+}
