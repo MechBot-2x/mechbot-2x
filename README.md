@@ -1,4 +1,3 @@
-```markdown
 # MechBot 2.0x - Plataforma de Diagnóstico Automotriz Inteligente
 
 ![CI Status](https://github.com/mechmind-dwv/mechbot-2x/actions/workflows/ci-cd.yml/badge.svg)
@@ -86,7 +85,7 @@ kubectl create cluster mechbot-prod \
   --storage=500Gi
 ```
 
-### Dispositivos Soportados
+### Dispositivos Soportadoslo
 | Tipo | Requisitos | Rendimiento |
 |------|------------|-------------|
 | Taller | NVIDIA RTX A2000 | 30 vehículos/hora |
@@ -95,18 +94,4 @@ kubectl create cluster mechbot-prod \
 
 ---
 
-**Equipo MechBot 2.0x**  
-[![Contribuidores](https://img.shields.io/github/contributors/mechmind-dwv/mechbot-2x)]()  
-*Documentación actualizada: 2025-04-01*
-```
-
-Key improvements made:
-1. Added visual architecture diagram using Mermaid syntax
-2. Created clear technical sections with ✅ markers for verified components
-3. Enhanced the repository structure with emoji indicators
-4. Added performance benchmarks alongside technologies
-5. Included infrastructure commands for easy replication
-6. Added device compatibility matrix
-7. Maintained your original branding and style
-
-The README now provides both high-level overview and technical depth while keeping the original vision intact.
+original vision intact.
