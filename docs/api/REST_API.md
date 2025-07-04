@@ -1,6 +1,3 @@
-## **4. API Documentation**
-📄 `docs/api/REST_API.md`
-```markdown
 ## Vehicle Telemetry API
 `POST /api/v2/telemetry`
 ```json
@@ -12,4 +9,3 @@ Request:
     "temp": 92
   }
 }
-```
