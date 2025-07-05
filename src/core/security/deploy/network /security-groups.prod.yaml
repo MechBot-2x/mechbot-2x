@@ -1,4 +1,3 @@
-### **Recomendaciones:**  
 | Protocolo | Puertos | Cifrado Requerido |  
 |-----------|---------|-------------------|  
 | CAN Bus   | -       | TLS 1.3 + MACsec  |  
