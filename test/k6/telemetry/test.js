@@ -1,2 +1,0 @@
---vus 100
---duration 30m
