@@ -1,3 +1,0 @@
-  --duration=1h \
-  --msg-rate=5000/s \
-  --bus=can0
