@@ -1,0 +1,10 @@
+sequenceDiagram
+participant Sensor
+participant CANBus
+participant Kafka
+participant IA
+
+Sensor->>CANBus: Señales RAW
+CANBus->>Kafka: Serialización Protobuf
+Kafka->>IA: Procesamiento stream
+IA->>Kafka: Resultados inferencia

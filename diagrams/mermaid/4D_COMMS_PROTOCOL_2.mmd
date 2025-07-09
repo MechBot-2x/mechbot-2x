@@ -1,0 +1,12 @@
+sequenceDiagram  
+participant Vehicle  
+participant Platform  
+participant Services  
+participant App  
+
+Vehicle->>Platform: Señales CAN (RAW)  
+Platform->>Services: gRPC-stream (Protobuf)  
+Services->>App: WebSocket (JSON)  
+App->>Services: Comandos (Avro)  
+Services->>Platform: ACK (Protobuf)  
+Platform->>Vehicle: Confirmación CAN  
