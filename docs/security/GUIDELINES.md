@@ -1,5 +1,5 @@
 # **Documentación de Seguridad - MechBot 2.0x**  
-**Ubicación:** `docs/security/GUIDELINES.md`  
+**Ubicación:** `security/GUIDELINES.md`  
 **Equipo de Ingeniería - Security Team**  
 **Versión:** 2.0.1 | **Última actualización:** 2025-04-03  
 
@@ -152,7 +152,7 @@ check_db_encryption() {
 ---
 
 ## **Anexo: Políticas de Emergencia**  
-**Ubicación:** `docs/security/INCIDENT_RESPONSE.md`  
+**Ubicación:** `security/INCIDENT_RESPONSE.md`  
 
 | Escenario                | Acción Inmediata                     |  
 |--------------------------|--------------------------------------|  

@@ -167,7 +167,7 @@ cosign sign --key env://PROD_SIGNING_KEY \
 
 Este documento provee:  
 ✅ Flujo completo de CI/CD  
-✅ Comandos listos para producción  
+✅ Comandos listos para produccion  
 ✅ Integración con herramientas estándar  
 ✅ Políticas de seguridad integradas  
 

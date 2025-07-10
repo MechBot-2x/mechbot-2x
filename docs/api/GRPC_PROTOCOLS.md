@@ -1,4 +1,4 @@
-📄 `docs/api/GRPC_PROTOCOLS.md`
+📄 `api/GRPC_PROTOCOLS.md`
 ```protobuf
 // proto/diagnosis/v1/service.proto
 service DiagnosisService {

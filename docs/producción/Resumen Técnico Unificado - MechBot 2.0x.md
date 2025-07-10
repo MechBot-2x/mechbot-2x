@@ -2,12 +2,12 @@ Aquí tienes un resumen estructurado y mejorado de toda la documentación técni
 
 ---
 
-# **Resumen Técnico Unificado - MechBot 2.0x**  
+# **resumen_tecnico**  
 **Estado:** Producción | **Versión:** 2.1.0 | **Última Actualización:** 2025-04-30  
 
 ## **Arquitectura 4D**  
 ```mermaid
-flowchart TD
+flowchart_TD
     FÍSICA["🛠️ Capa Física\n- Kubernetes/NVIDIA/RPi\n- CAN Bus 2.0B"] --> PLATAFORMA["🐳 Capa Plataforma\n- Docker/Helm/Istio"]
     PLATAFORMA --> SERVICIOS["🔌 Capa Servicios\n- gRPC-stream/Kafka"] 
     SERVICIOS --> APLICACIÓN["📊 Capa Aplicación\n- Dashboard 3D/Telemetría"]
