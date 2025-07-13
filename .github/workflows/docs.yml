@@ -2,8 +2,8 @@ import os
 import sys
 from pathlib import Path
 from typing import List, Dict
-name:Build docs.
-on:[push]
+name: Build Documentation
+on: [push]
 
 from diagrams import Diagram, Cluster
 from diagrams.aws.compute import EC2, ECS
@@ -12,22 +12,24 @@ from diagrams.aws.network import ELB
 from diagrams.custom import Custom
 from diagrams.onprem.iac import Ansible
 from diagrams.onprem.monitoring import Grafana
+
 # Configuración del sistema
 CONFIG =
 {
-    "output_dir": Path("docs/architecture"),
+    "output_dir": Path("docs/technical/architecture"),
     "formats": ["png", "svg"],
     "theme": "dark",
     "dpi": 300,
     "font": "Arial"
 }
+
 class MechBotDiagramGenerator:
-    
+    """
     Generador profesional de diagramas para la plataforma MechBot 2.0
     
     Args:
         config (Dict): Configuración de generación
-
+    """
     
     def __init__(self, config: Dict):
         self.config = config
@@ -42,6 +44,7 @@ class MechBotDiagramGenerator:
         
         if not (self.config["output_dir"].parent.exists()):
             self.config["output_dir"].parent.mkdir(parents=True)
+
     def generate_core_architecture(self):
         """
         Diagrama de arquitectura principal del sistema MechBot 2.0
@@ -90,6 +93,7 @@ class MechBotDiagramGenerator:
             (can_bus >> lb >> processors >> ml_engine >> dashboard)
             (obd_ii >> k8s >> diag_model >> mobile)
             (sensors >> telemetry >> grafana)
+
     def generate_data_flow(self):
         """Genera diagrama de flujo de datos CAN bus"""
         with Diagram("CAN Bus Data Flow",
@@ -107,6 +111,7 @@ class MechBotDiagramGenerator:
             ecu1 >> gateway >> processor
             ecu2 >> gateway
             processor >> db
+
 if __name__ == "__main__":
     try:
         print("=== MECHBOT DIAGRAM GENERATOR ===")
@@ -124,7 +129,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
         print(f"\n✅ Diagramas generados en: {CONFIG['output_dir'].absolute()}")
     except Exception as e:
         print(f"\n❌ Error: {str(e)}", file=sys.stderr)
@@ -137,21 +141,16 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libjpeg-dev zlib1g-dev graphviz
-      - name: Upgrade pip and install Python packages
           sudo apt-get install -y graphviz
       
       - name: Install Python packages
         run: |
-          python -m pip install --upgrade pip
           pip install --upgrade pip
           pip install diagrams==0.23.3 pillow==9.5.0
-      - name: Create resources directory and placeholders
       
       - name: Create resources directory
         run: |
           mkdir -p resources/icons
-          # Puedes reemplazar esto por la descarga o generación real de íconos en el futuro
           # Esto debería ser reemplazado con la descarga real de tus íconos
           touch resources/icons/{can_bus,obd,ecu,dashboard,sensor,mobile,gateway}.png
       
@@ -159,14 +158,12 @@ jobs:
         run: |
           python scripts/generate_diagrams.py
           echo "Generated files:"
-          ls -R docs/architecture/
           ls -R docs/technical/architecture/
       
       - name: Upload documentation artifacts
         uses: actions/upload-artifact@v4
         with:
           name: technical-docs
-          path: docs/architecture/
           path: |
             docs/technical/architecture/
           if-no-files-found: error
