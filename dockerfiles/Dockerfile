@@ -1,7 +1,7 @@
-# Dockerfile.secure - Versión corregida
-FROM python:3.10-slim as builder
+# Dockerfile.secure
+FROM python:3.10-slim AS builder
 
-# Instalar dependencias del sistema
+# Instalar dependencias de compilación
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     gcc \
@@ -12,26 +12,22 @@ RUN apt-get update && \
 WORKDIR /app
 COPY requirements.txt .
 
-# Instalar dependencias Python
-RUN pip install --user --no-cache-dir -r requirements.txt
+# Instalar dependencias con permisos controlados
+RUN pip install --user --no-cache-dir -r requirements.txt && \
+    setcap 'cap_net_raw,cap_net_admin+ep' /usr/local/bin/python
 
 FROM python:3.10-slim
 WORKDIR /app
 
-# Crear usuario seguro
+# Configurar usuario no-root
 RUN groupadd -r mechbot && \
-    useradd -r -g mechbot -d /app -s /bin/false mechbot && \
+    useradd -r -g mechbot mechbot && \
     chown -R mechbot:mechbot /app
 
-# Copiar desde builder
 COPY --from=builder --chown=mechbot:mechbot /root/.local /home/mechbot/.local
 COPY --chown=mechbot:mechbot src/ .
 
-# Configurar entorno
 USER mechbot
 ENV PATH="/home/mechbot/.local/bin:${PATH}"
-
-# Verificar instalación
-RUN python -c "import sys; print(sys.path)"
 
 CMD ["python", "-m", "core.data_flow4D"]
