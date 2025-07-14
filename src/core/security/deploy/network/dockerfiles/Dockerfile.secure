@@ -1,0 +1,3 @@
+FROM alpine:3.18
+RUN adduser -D mechbotuser
+USER mechbotuser  # ✅

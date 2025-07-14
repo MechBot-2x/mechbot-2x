@@ -1,0 +1,17 @@
+# Configuración para pruebas con Docker Compose
+version: '3.8'
+services:
+  tester:
+    build: .
+    depends_on:
+      - postgres-test
+      - redis-test
+  postgres-test:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: mechbot_test
+      POSTGRES_USER: runner
+      POSTGRES_PASSWORD: ""
+      POSTGRES_HOST_AUTH_METHOD: trust
+  redis-test:
+    image: redis:alpine

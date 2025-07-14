@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: MechBot 2.0x CI/CD Pipeline
 on:
   push:
     branches: [ main, dev ]
@@ -8,19 +8,15 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
   quality-assurance:
     name: Quality Gate
     runs-on: ubuntu-22.04
     timeout-minutes: 15
     
-    steps: 
-      - uses: actions/checkout@v3
-      - name: Set up Python
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
@@ -88,10 +84,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-    - uses: actions/checkout@v4
-    - run: |
-          pip install -e .[test]
-          make lint
-          pytest --cov=src
-          docker-compose -f docker-compose.test.yml up -dAdd commentMore actions
+      - uses: actions/checkout@v4
+      - run: |
+          docker-compose -f docker-compose.test.yml up -d
           pytest tests/integration/
