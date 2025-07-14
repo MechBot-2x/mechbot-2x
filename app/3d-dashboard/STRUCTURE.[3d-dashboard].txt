@@ -1,0 +1,15 @@
+### **Estructura de Directorios**  
+```
+app/
+├── 3d-dashboard/
+│   ├── src/
+│   │   ├── engine/         # Lógica 3D
+│   │   ├── ia-integration/ # Modelos ONNX
+│   │   └── telemetry/      # WebSockets
+│   └── config/
+│       └── webpack.config.3d.js
+└── diagnostic-tool/
+    └── src/
+        ├── ml-models/      # XGBoost/BERT
+        └── canbus-parser/  # Decodificadores CAN
+```
