@@ -1,0 +1,20 @@
+### **Configuración Principal** 
+api:
+  port: 8080
+  rate_limit: 1000/req/min
+  cors:
+    allowed_origins: ["https://*.mechbot.tech"]
+    
+grpc:
+  port: 50051
+  max_concurrent: 1000
+  tls:
+    cert: /certs/grpc.pem
+    key: /certs/grpc-key.pem
+
+kafka:
+  bootstrap_servers: "kafka1:9092,kafka2:9092"
+  topics:
+    telemetry: "vehicle_metrics_v2"
+    commands: "command_queue"
+  consumer_group: "mechbot_processor"
