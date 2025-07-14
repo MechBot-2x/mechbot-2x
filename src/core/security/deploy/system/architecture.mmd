@@ -1,0 +1,11 @@
+# **1. Pipeline CI/CD**  
+### **1.1 Arquitectura del Sistema**  
+```mermaid
+flowchart LR
+    A[GitHub] -->|Webhook| B[Jenkins]
+    B --> C[Build Stage]
+    C --> D[Test Stage]
+    D --> E[Deploy Stage]
+    E --> F[Production]
+    E --> G[Staging]
+```
