@@ -1,66 +1,43 @@
-# requirements.txt - MechBot 2.0x
-# Equipo Técnico - Dependencias Python
-
 # Dependencias principales
 fastapi==0.104.1
-uvicorn==0.24.0
+uvicorn[standard]==0.24.0
 sqlalchemy==2.0.23
 psycopg2-binary==2.9.9
 redis==5.0.1
 pydantic==2.5.0
 
-# Dependencias de desarrollo y testing
+# Desarrollo y testing
 pytest==7.4.3
 pytest-cov==4.1.0
 ruff==0.1.6
 mypy==1.7.1
 black==23.11.0
 
-### Paquetes Core ###
-fastapi==0.95.2
-uvicorn[standard]==0.22.0
-pydantic==1.10.7
-
-### Autenticación y Seguridad ###
+# Seguridad y autenticación
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 pyopenssl==23.2.0
 
-### Procesamiento de Datos ###
+# Procesamiento de datos
 confluent-kafka==2.1.1
-pyspark[sql]==3.4.0
-delta-spark==2.4.0
 pandas==2.0.3
 
-### Machine Learning ###
-onnxruntime>=1.17.0
+# Machine Learning
+onnxruntime==1.17.0
 xgboost==1.7.5
 transformers[torch]==4.30.2
 scikit-learn==1.2.2
 
-### Bases de Datos ###
+# Bases de datos
 asyncpg==0.27.0
-sqlalchemy[asyncio]==2.0.15
 cassandra-driver==3.28.0
-redis[hiredis]==4.5.5
 
-### gRPC e Integraciones ###
+# gRPC e integraciones
 grpcio==1.54.2
 grpcio-tools==1.54.2
 google-api-python-client==2.86.0
 
-### Desarrollo y Testing ###
-pytest==7.4.0
-pytest-asyncio==0.21.1
-pytest-cov==4.1.0
-httpx==0.24.1
-
-### Formateo y Linting ###
-black==23.7.0
-ruff==0.0.280
-mypy==1.5.0
-
-# Versiones fijas para compatibilidad
-protobuf==4.23.2  # Requerido por gRPC y ONNX
-numpy==1.24.4     # Evitar conflictos con ONNX
+# Utilidades
 python-dotenv==1.0.0
+protobuf==4.23.2
+numpy==1.24.4
