@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  mechbot:
+    image: mechbot:v1
+    ports:
+      - "5000:5000"
+  valhalla-ai:
+    image: tensorflow/serving
+    volumes:
+      - ./ai_models:/models
