@@ -85,7 +85,7 @@ kubectl create cluster mechbot-prod \
   --storage=500Gi
 ```
 
-### Dispositivos Soportados
+### Dispositivos Soportadoslo
 | Tipo | Requisitos | Rendimiento |
 |------|------------|-------------|
 | Taller | NVIDIA RTX A2000 | 30 vehículos/hora |
