@@ -1,0 +1,6 @@
+[submodule "core/ai_engine/onnx_models"]
+	path = core/ai_engine/onnx_models
+	url = https://github.com/onnx/models
+[submodule "core/telemetry/aws_iot"]
+	path = core/telemetry/aws_iot
+	url = https://github.com/aws/aws-iot-device-sdk-python-v2
