@@ -2,14 +2,14 @@
 
 ## **Archivo Principal**
 **Nombre:** `REALTIME_DASHBOARDS.md`  
-**Ubicación:** `/docs/monitoring/REALTIME_DASHBOARDS.md`  
+**Ubicación:** `/monitoring/REALTIME_DASHBOARDS.md`  
 **Responsable:** Equipo de Observabilidad - DevOps
 
 ## **Arquitectura de Monitorización 4D**
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff2cc'}}}%%
-flowchart TD
+flowchart_TD
     A[<img src='https://cdn-icons-png.flaticon.com/512/1086/1086741.png' width='25'/> Sensores Físicos] --> B[<img src='https://cdn-icons-png.flaticon.com/512/3601/3601624.png' width='25'/> Prometheus]
     B --> C[<img src='https://cdn-icons-png.flaticon.com/512/2620/2620971.png' width='25'/> Grafana]
     C --> D[<img src='https://cdn-icons-png.flaticon.com/512/2103/2103633.png' width='25'/> Dashboard 3D]
@@ -81,8 +81,8 @@ curl http://localhost:9100/metrics | grep canbus
 ```
 
 ## **Documentación Relacionada**
-📌 [Política de Retención de Métricas](docs/monitoring/RETENTION_POLICY.md)  
-📌 [Guía de Configuración de Alertas](docs/monitoring/ALERTING_GUIDE.md)
+📌 [Política de Retención de Métricas](monitoring/RETENTION_POLICY.md)  
+📌 [Guía de Configuración de Alertas](monitoring/ALERTING_GUIDE.md)
 
 **Equipo de Observabilidad MechBot**  
 📊 **Contacto:** [observability@mechbot.tech](mailto:observability@mechbot.tech)  

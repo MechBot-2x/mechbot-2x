@@ -1,4 +1,3 @@
-```protobuf  
 syntax = "proto3";  
 
 message VehicleSignal {  
@@ -10,5 +9,4 @@ message VehicleSignal {
         bytes raw = 5;  
     }  
     map<string, string> metadata = 6;  
-}  
-```
+}

@@ -2,14 +2,14 @@
     PLATAFORMA -->|Serialización| SERVICIOS
     SERVICIOS -->|Optimización| APLICACION# **Protocolo de Comunicación 4D - MechBot 2.0x**  
 **Documento:** `4D_COMMS_PROTOCOL.md`  
-**Ubicación:** `docs/architecture/4D_COMMS_PROTOCOL.md`  
+**Ubicación:** `architecture/4D_COMMS_PROTOCOL.md`  
 **Responsables:** Equipo de Arquitectura - DevOps  
 
 ## **Diagrama de Protocolos por Capa**  
 ```mermaid  
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff2cc'}}}%%  
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff2cc'}}}%%
-flowchart TD
+flowchart_TD
     subgraph FISICA["Capa Física"]
         A[Protocolo CAN 2.0B]
         B[ISO 15765-4]
@@ -116,8 +116,8 @@ sequenceDiagram
 ```  
 
 ## **Documentación Relacionada**  
-📌 [Guía de Optimización CAN](docs/hardware/CAN_OPTIMIZATION.md)  
-📌 [Patrones gRPC](docs/architecture/GRPC_PATTERNS.md)  
+📌 [Guía de Optimización CAN](hardware/CAN_OPTIMIZATION.md)  
+📌 [Patrones gRPC](architecture/GRPC_PATTERNS.md)  
 
 **Equipo de Arquitectura MechBot**  
 🛠️ **Mantenedores:** @network-lead @protocol-eng  

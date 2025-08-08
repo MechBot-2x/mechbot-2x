@@ -1,12 +1,12 @@
 # **Flujo de Datos 4D - Arquitectura Avanzada**  
-**Documento:** `docs/architecture/4D_DATA_FLOW.md`  
-**Ubicación Física:** `/mechbot-2x/docs/architecture/4D_DATA_FLOW.md`  
+**Documento:** `architecture/4D_DATA_FLOW.md`  
+**Ubicación Física:** `/mechbot-2x/architecture/4D_DATA_FLOW.md`  
 **Responsable:** Equipo de Ingeniería de Plataforma  
 
 ## **Diagrama de Flujo Mejorado**  
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffdfd3', 'edgeLabelBackground':'#fff'}}}%%
-flowchart TD
+flowchart_TD
     subgraph FÍSICA["CAPA FÍSICA (Hardware)"]
         A[<img src='https://cdn-icons-png.flaticon.com/512/1086/1086741.png' width='30'/> Kubernetes Nodes]
         B[<img src='https://cdn-icons-png.flaticon.com/512/3014/3014486.png' width='30'/> NVIDIA Jetson]
@@ -62,8 +62,8 @@ flowchart TD
 ```
 
 **Documentación Relacionada:**  
-📌 [Protocolo de Comunicación 4D](docs/architecture/4D_COMMS_PROTOCOL.md)  
-📌 [Benchmarks de Rendimiento](docs/performance/4D_BENCHMARKS.md)  
+📌 [Protocolo de Comunicación 4D](architecture/4D_COMMS_PROTOCOL.md)  
+📌 [Benchmarks de Rendimiento](performance/4D_BENCHMARKS.md)  
 
 **Equipo de Ingeniería MechBot**  
 🛠️ **Mantenedores:** @devops-lead @platform-eng  

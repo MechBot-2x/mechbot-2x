@@ -3,7 +3,7 @@
 
 ## **1. Estructura de Documentación Clave**
 ```mermaid
-flowchart TD
+flowchart_TD
     A[Documentación Principal] --> B[Configuraciones]
     A --> C[Protocolos]
     A --> D[Monitorización]

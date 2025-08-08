@@ -1,3 +1,4 @@
+### **Configuración Principal** 
 api:
   port: 8080
   rate_limit: 1000/req/min

@@ -1,21 +1,19 @@
 # =============================================
-# CONFIGURACIÓN PRINCIPAL DEL PROYECTO
+# CONFIGURACIÓN DEL PROYECTO - MECHBOT CORE 2.0
 # =============================================
 [project]
 name = "mechbot-core"
-dynamic = ["version"]
+version = "2.0.1"
 description = """
 Plataforma de diagnóstico automotriz inteligente que combina:
-- Análisis predictivo mediante IA/ML de última generación
-- Integración avanzada con sistemas vehiculares (OBD-II/CAN, Ethernet)
-- Gestión de talleres en tiempo real con soporte multi-sede
+- Análisis predictivo mediante IA
+- Integración con sistemas vehiculares OBD-II/CAN
+- Gestión de talleres en tiempo real
 """
 authors = [
     {name = "Equipo de Ingeniería MechBot", email = "core-dev@mechbot.tech"},
-    {name = "Departamento de IA", email = "ai-team@mechbot.tech"}
-]
-maintainers = [
-    {name = "Soporte Técnico Nivel 3", email = "tech-support-l3@mechbot.tech"}
+    {name = "Departamento de IA", email = "ai-team@mechbot.tech"},
+    {name = "Integración Vehicular", email = "firmware@mechbot.tech"}
 ]
 license = {text = "Apache-2.0"}
 requires-python = ">=3.10"
@@ -23,169 +21,165 @@ readme = "README.md"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Automotive Technicians",
-    "Programming Language :: Python :: 3.10",
-    "Typing :: Typed",
-    "Framework :: FastAPI",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Topic :: Scientific/Engineering :: Automotive",
     "Operating System :: POSIX :: Linux",
-    "License :: OSI Approved :: Apache Software License"
+    "Programming Language :: Python :: 3.10"
 ]
 
-urls = {
-    "Homepage" = "https://mechbot.tech",
-    "Documentation" = "https://docs.mechbot.tech",
-    "Repository" = "https://github.com/mechmind-dwv/mechbot-2x",
-    "Changelog" = "https://github.com/mechmind-dwv/mechbot-2x/releases"
-}
-
-# =============================================
-# SISTEMA DE CONSTRUCCIÓN
-# =============================================
+# ========================
+# ARQUITECTURA DEL SISTEMA
+# ========================
 [build-system]
-requires = [
-    "setuptools>=68.0.0",
-    "wheel>=0.40.0",
-    "setuptools_scm>=8.0.0",
-    "Cython>=3.0.0; python_version<'3.11'"
-]
+requires = ["setuptools>=65", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-package-dir = {"" = "src"}
-zip-safe = false
-include-package-data = true
-
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["mechbot*"]
-exclude = [
-    "tests*",
-    "experimental*",
-    "legacy*",
-    "benchmarks*"
-]
-
-[tool.setuptools_scm]
-write_to = "src/mechbot/_version.py"
-local_scheme = "no-local-version"
-version_scheme = "python-simplified-semver"
-fallback_version = "0.0.0"
-
-# =============================================
-# DEPENDENCIAS PRINCIPALES
-# =============================================
+# =================================
+# DEPENDENCIAS DEL NÚCLEO PRINCIPAL
+# =================================
 dependencies = [
-    # Core Framework
-    "fastapi>=0.95.2,<1.0.0",
-    "uvicorn[standard]>=0.22.0,<1.0.0",
-    "starlette>=0.27.0,<0.28.0",
+    # Capa de API y Comunicaciones
+    "fastapi==0.95.2",          # Framework API web (ASGI)
+    "uvicorn[standard]==0.22.0", # Servidor ASGI optimizado
+    "starlette==0.27.0",        # Componentes ASGI base
     
-    # Data Processing
-    "pydantic>=1.10.7,<2.0.0",
-    "orjson>=3.9.5,<4.0.0",
-    "pandas>=2.0.0,<3.0.0",
-    "numpy>=1.24.0,<2.0.0",
+    # Seguridad y Autenticación
+    "python-jose[cryptography]==3.3.0",  # Implementación JWT
+    "passlib[bcrypt,argon2]==1.7.4",     # Hashing avanzado
+    "cryptography==41.0.3",     # Cifrado AES-256/GCM
     
-    # System & Performance
-    "anyio>=3.6.2,<4.0.0",
-    "psutil>=5.9.5,<6.0.0",
-    "loguru>=0.7.0,<0.8.0",
+    # Manejo de Datos
+    "pydantic[email]==1.10.7",  # Validación de datos
+    "orjson==3.9.5",            # Serialización JSON ultra-rápida
+    "python-dotenv==1.0.0",     # Gestión de entornos
     
-    # Security
-    "python-jose[cryptography]>=3.3.0,<4.0.0",
-    "passlib[bcrypt,argon2]>=1.7.4,<2.0.0",
-    "cryptography>=41.0.3,<42.0.0"
+    # Concurrencia y Paralelismo
+    "anyio==3.6.2",             # Abstracción asíncrona
+    "concurrent-log-handler==0.9.24", # Logging thread-safe
+    
+    # Monitorización del Sistema
+    "loguru==0.7.0",            # Logging estructurado
+    "psutil==5.9.5",            # Monitoreo de recursos
 ]
 
-# =============================================
-# MÓDULOS ESPECIALIZADOS
-# =============================================
+# ====================================
+# MÓDULOS ESPECIALIZADOS (OPTIONAL-DEPS)
+# ====================================
 [project.optional-dependencies]
-ai = [
-    "onnxruntime-gpu>=1.14.1,<2.0.0",
-    "scikit-learn>=1.5.1,<2.0.0",
-    "transformers[torch]>=4.30.2,<5.0.0",
-    "openai>=0.27.0,<1.0.0"
+
+# ------------------------------------
+# Módulo de Inteligencia Artificial
+# ------------------------------------
+ia = [
+    # Runtime de Inferencia
+    "onnxruntime-gpu==1.14.1",  # Aceleración CUDA
+    
+    # Frameworks de ML
+    "xgboost==1.7.5",           # Para diagnóstico predictivo
+    "lightgbm==3.3.5",          # Modelos eficientes
+    
+    # Procesamiento de Señales
+    "scipy==1.10.1",            # Análisis de vibraciones
+    "scikit-learn==1.5.1",      # Pre-procesamiento
+    
+    # Visión por Computador
+    "opencv-python==4.7.0.72",  # Análisis de imágenes
+    "Pillow==9.5.0",            # Procesamiento de imágenes
+    
+    # NLP para informes
+    "transformers[torch]==4.30.2",
+    "spacy==3.5.3"
 ]
 
-vehicle = [
-    "python-obd>=0.7.1,<0.8.0",
-    "cantools>=37.2.0,<38.0.0",
-    "pyserial>=3.5,<4.0",
-    "python-can>=4.0.0,<5.0.0"
+# ------------------------------------
+# Módulo de Integración Vehicular
+# ------------------------------------
+obd = [
+    "python-obd==0.7.1",        # Conexión OBD-II
+    "canmatrix==0.9.5",         # Parsing DBC/CAN
+    "cantools==37.2.0",         # Codificación CAN
+    "pyserial==3.5"            # Comunicación serial
 ]
 
-workshop = [
-    "grpcio>=1.54.3,<2.0.0",
-    "protobuf>=4.23.2,<5.0.0",
-    "opentelemetry-sdk>=1.15.0,<2.0.0"
+# ------------------------------------
+# Módulo de Gestión de Talleres
+# ------------------------------------
+taller = [
+    "grpcio==1.54.3",           # Comunicación gRPC
+    "grpcio-tools==1.54.2",     # Generación de stubs
+    "protobuf==4.23.2",         # Serialización Protocol Buffers
+    "googleapis-common-protos==1.59.1" # Protos estándar
 ]
 
-dev = [
-    "ruff>=0.1.0",
-    "mypy>=1.5.0",
-    "ipdb>=0.13.9",
-    "jupyterlab>=3.6.0,<4.0.0"
-]
-
-test = [
-    "pytest>=7.4.0",
-    "pytest-cov>=4.1.0",
-    "pytest-mock>=3.10.0",
-    "pytest-asyncio>=0.21.0,<1.0.0"
-]
-
-docs = [
-    "mkdocs>=1.4.0",
-    "mkdocs-material>=8.0.0",
-    "mkdocstrings[python]>=0.20.0,<1.0.0"
-]
-
-benchmark = [
-    "locust>=2.15.0,<3.0.0",
-    "pytest-benchmark>=4.0.0,<5.0.0"
-]
-
-# =============================================
+# ====================================
 # CONFIGURACIÓN DE HERRAMIENTAS DE DESARROLLO
-# =============================================
-[tool.ruff]
-target-version = "py310"
-line-length = 120
-cache-dir = ".ruff_cache"
+# ====================================
+[tool.pytest.ini_options]
+testpaths = [
+    "tests/unit",
+    "tests/integration",
+    "tests/validation"
+]
+asyncio_mode = "auto"
+addopts = """
+-v 
+--cov=src 
+--cov-report=term
+--cov-report=xml
+--junitxml=test-results.xml
+"""
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::ResourceWarning"
+]
+log_level = "INFO"
+log_cli = true
 
-[tool.ruff.lint]
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_return_any = true
+check_untyped_defs = true
+
+[tool.ruff]
+# Configuración de Análisis Estático
+line-length = 120
 select = [
-    "E",   # Pycodestyle errors
+    "E",   # Pycodestyle Errors
+    "W",   # Pycodestyle Warnings
     "F",   # PyFlakes
-    "I",   # Import sorting
-    "B",   # Bugbear
-    "C",   # Complexity
-    "UP",  # Pyupgrade
-    "RUF", # Ruff-specific
-    "PD"   # Pandas best practices
+    "I",   # Isort
+    "B",   # flake8-bugbear
+    "C",   # flake8-comprehensions
+    "A",   # flake8-builtins
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "YTT", # flake8-2020
+    "RUF"  # Ruff-specific
 ]
 ignore = [
-    "D203", "D212",  # Docstring conventions
-    "E501",          # Line length (handled by formatter)
-    "PD011"          # Pandas .values usage
+    "D203",  # Whitespace before class docstring
+    "D212",  # Multi-line docstring summary
+    "B008",  # Late-binding closures
+    "E501"   # Line too long (manejado por black)
 ]
-unfixable = ["F401"]
+target-version = "py310"
+unfixable = ["T20", "F401"]
 
-[tool.ruff.per-file-ignores]
-"**/legacy/*.py" = ["F401", "F403"]
-"**/tests/*.py" = ["S101"]
-
-[tool.ruff.format]
-docstring-code-format = true
-quote-style = "double"
-indent-style = "space"
-indent-width = 4
+# Excluir archivos de protobuf generados
+exclude = [
+    "**/_pb2*.py",
+    "**/generated/**"
+]
 
 [tool.black]
 line-length = 120
-target-version = ["py310"]
+target-version = ['py310']
 skip-string-normalization = true
 include = '\.pyi?$'
 exclude = '''
@@ -195,74 +189,54 @@ exclude = '''
   | build
   | dist
   | protobufs
-  | legacy
 )/
 '''
+
+[tool.isort]
+profile = "black"
+line_length = 120
+known_first_party = ["mechbot"]
+sections = [
+    "FUTURE",
+    "STDLIB",
+    "THIRDPARTY",
+    "FIRSTPARTY",
+    "LOCALFOLDER"
+]
+
+# ====================================
+# CONFIGURACIÓN DE EMPAQUETADO
+# ====================================
+[tool.setuptools]
+package-dir = {"" = "src"}
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mechbot*"]
+exclude = [
+    "tests*",
+    "experimental*",
+    "legacy*"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "mechbot.__version__"}
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
 
 [tool.mypy]
 python_version = "3.10"
 strict = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-warn_no_return = true
-warn_return_any = true
-check_untyped_defs = true
-disallow_incomplete_defs = true
-disallow_any_generics = true
-no_implicit_optional = true
-warn_unreachable = true
 
-[[tool.mypy.overrides]]
-module = [
-    "pandas.*",
-    "numpy.*"
-]
-ignore_missing_imports = true
+[tool.black]
+line-length = 88
+target-version = ['py310']
 
-# =============================================
-# CONFIGURACIÓN DE PRUEBAS Y COBERTURA
-# =============================================
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
 testpaths = ["tests"]
-addopts = "-v --cov=src --cov-report=term-missing --cov-report=xml --junitxml=test-results.xml"
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore::pytest.PytestRemovedIn8Warning"
-]
-log_level = "INFO"
-log_cli = true
-log_file = "pytest.log"
-log_file_level = "DEBUG"
-
-[tool.coverage.run]
-source = ["src"]
-branch = true
-parallel = true
-omit = [
-    "**/__init__.py",
-    "**/_version.py",
-    "**/types.py"
-]
-
-[tool.coverage.report]
-show_missing = true
-skip_covered = true
-precision = 2
-exclude_lines = [
-    "pragma: no cover",
-    "raise NotImplementedError",
-    "if __name__ == .__main__.:",
-    "if TYPE_CHECKING:"
-]
-
-# =============================================
-# CONFIGURACIÓN DE DOCUMENTACIÓN
-# =============================================
-[tool.mkdocs]
-site_name = "MechBot Core Documentation"
-site_url = "https://docs.mechbot.tech"
-site_dir = "site"
-docs_dir = "docs/source"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

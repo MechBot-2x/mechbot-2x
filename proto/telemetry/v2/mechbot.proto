@@ -1,6 +1,4 @@
-### **2. Capa Plataforma**  
-**Archivo Proto:** `proto/telemetry/v2/mechbot.proto`  
-```protobuf  
+#`proto/telemetry/v2/mechbot.proto`
 syntax = "proto3";  
 
 message VehicleSignal {  
@@ -12,5 +10,4 @@ message VehicleSignal {
         bytes raw = 5;  
     }  
     map<string, string> metadata = 6;  
-}  
-```  
+}

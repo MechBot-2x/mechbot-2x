@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MechBot Diagram Viewer</title>
+    <style>
+        .diagram { margin: 20px; border: 1px solid #ccc; }
+        h2 { font-family: sans-serif; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Diagramas de MechBot 2.0x</h1>
+    
+    <!-- Esto se generará automáticamente -->
+    {% for svg in diagrams %}
+    <div class="diagram">
+        <h2>{{ svg.name }}</h2>
+        <img src="rendered/{{ svg.name }}.svg" />
+    </div>
+    {% endfor %}
+
+    <script>
+        // Cargar diagramas dinámicamente
+        fetch('rendered/')
+            .then(response => response.text())
+            .then(data => {
+                const parser = new DOMParser();
+                const html = parser.parseFromString(data, 'text/html');
+                const links = [...html.querySelectorAll('a')]
+                    .filter(a => a.href.endsWith('.svg'))
+                    .map(a => {
+                        const div = document.createElement('div');
+                        div.className = 'diagram';
+                        div.innerHTML = `
+                            <h2>${a.href.split('/').pop()}</h2>
+                            <img src="${a.href}" />
+                        `;
+                        return div;
+                    });
+                
+                document.body.append(...links);
+            });
+    </script>
+</body>
+</html>

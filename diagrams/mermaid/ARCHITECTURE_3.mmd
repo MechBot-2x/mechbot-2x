@@ -1,0 +1,11 @@
+C4Component
+title Servicio de Diagnóstico
+Component(api, "API REST", "FastAPI", "Endpoint /diagnosis")
+Component(stream, "Stream Processor", "Spark Structured Streaming", "Procesa Kafka")
+Component(model, "Model Serving", "TorchServe", "Inferencia en <50ms")
+Component(cache, "Feature Cache", "Redis", "TTL=1h")
+
+Rel(api, stream, "Publica eventos")
+Rel(stream, model, "Batch scoring")
+Rel(model, cache, "Consulta features")
+Rel_U(api, cache, "Lee resultados")

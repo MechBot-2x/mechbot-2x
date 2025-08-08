@@ -1,0 +1,63 @@
+site_name: MechBot 2.0x Docs
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - content.tabs.linked
+
+plugins:
+  - search
+  - mermaid2:
+      arguments:
+        theme: dark
+        flowchart:
+          useMaxWidth: true
+
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - attr_list
+
+nav:
+  - Inicio: index.md
+  - Resumen: produccion/resumen_tecnico.md
+  - Índice: DOCUMENTATION_INDEX.md
+  - Arquitectura:
+    - '4D Architecture': architecture/4D_ARCHITECTURE.md
+    - 'Flujo de Datos': architecture/4D_DATA_FLOW.md
+    - 'Protocolo Comms': architecture/4D_COMMS_PROTOCOL.md
+    - 'Despliegue': architecture/4D_DEPLOYMENT.md
+    - 'Flowchart': architecture/flowchart_TD.md
+    - 'Anexo A': architecture/AnexoA_Especificaciones_MechBot2.0x.md
+    - 'Despliegue Automatizado': architecture/AUTOMATED_DEPLOY.md
+  - Seguridad:
+    - 'Políticas': security/SECURITY.md
+    - 'Dependencias': security/DEPENDENCY-POLICY.md
+    - 'Directrices': security/GUIDELINES.md
+    - 'Respuesta a Incidentes': security/INCIDENT_RESPONSE.md
+    - 'Actualizaciones': security/UPDATE-PROCESS.md
+    - 'Dependabot': security/multi-ecosystem.md
+  - Monitorización:
+    - 'Dashboards': monitoring/REALTIME_DASHBOARDS.md
+    - 'Alertas': monitoring/ALERTING_GUIDE.md
+    - 'Retención': monitoring/RETENTION_POLICY.md
+  - AI:
+    - 'Modelos': ai/DIAGNOSIS_MODELS.md
+    - 'Chatbot': ai/NLP_CHATBOT.md
+    - 'Diagnóstico': ai/diagnostico_tiempo_real.md
+  - API:
+    - 'REST': api/REST_API.md
+    - 'gRPC': api/GRPC_PROTOCOLS.md
+  - Hardware:
+    - 'Especificaciones': hardware/HW_SPECS.md
+  - Ingeniería:
+    - 'Manual del Equipo': engineering/TEAM_HANDBOOK.md
+    - 'Contribución': engineering/CONTRIBUTING.md
+    - 'Flowchart': engineering/flowchart_TD.md
+  - Performance:
+    - 'Benchmarks': performance/4D_BENCHMARKS.md
+  - Incidentes:
+    - 'Playbook': incidents/RESPONSE_PLAYBOOK.md
+  - Estructura:
+    - 'General': STRUCTURE.md

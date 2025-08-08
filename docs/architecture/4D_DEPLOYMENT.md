@@ -3,7 +3,7 @@
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffdfd3', 'edgeLabelBackground':'#fff'}}}%%
-flowchart TD
+flowchart_TD
     A[<img src='https://cdn-icons-png.flaticon.com/512/1086/1086741.png' width='40'/>\n<b>Capa Física</b>\n- Kubernetes Nodes\n- NVIDIA Jetson\n- Raspberry Pi] --> B[<img src='https://cdn-icons-png.flaticon.com/512/3601/3601624.png' width='40'/>\n<b>Capa Plataforma</b>\n- Docker\n- Helm\n- Istio]
     B --> C[<img src='https://cdn-icons-png.flaticon.com/512/2620/2620971.png' width='40'/>\n<b>Capa Servicios</b>\n- API REST\n- gRPC\n- Kafka Streams]
     C --> D[<img src='https://cdn-icons-png.flaticon.com/512/2103/2103633.png' width='40'/>\n<b>Capa Aplicación</b>\n- Dashboard 3D\n- Diagnóstico IA\n- Telemetría]
@@ -74,6 +74,6 @@ class DataFlow4D:
 ```
 
 **Equipo DevOps MechBot**  
-🏗️ **Documentación Completa:** [Arquitectura 4D](docs/architecture/4D_DEPLOYMENT.md)  
+🏗️ **Documentación Completa:** [Arquitectura 4D](architecture/4D_DEPLOYMENT.md)  
 🔄 **Último Despliegue:** 2025-04-10T08:00:00Z  
 📊 **Monitorización:** Grafana Dashboard `MechBot-4D`
