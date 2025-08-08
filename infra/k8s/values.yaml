@@ -1,0 +1,17 @@
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+grpc:
+  loadBalancerIP: ${GRPC_LB_IP}
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051
