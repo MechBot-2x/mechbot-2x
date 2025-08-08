@@ -1,0 +1,95 @@
+name: Pipeline CI/CD de MechBot 2.0x
+on:
+  push:
+    branches: [main, dev]
+    tags: ['v*.*.*']  # Ej: v1.2.3
+  pull_request:
+    branches: ['*']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true  # Evita ejecuciones duplicadas
+
+jobs:
+  control-calidad:
+    name: Puerta de Calidad
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15  # Fallo rápido si hay bloqueos
+
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necesario para análisis de código
+          submodules: recursive  # Para dependencias embebidas
+
+      - name: Configurar Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'  # Acelera builds futuros
+          cache-dependency-path: '**/requirements.txt'
+
+      - name: Instalar dependencias
+        run: |
+          pip install --upgrade pip wheel
+          pip install -e .[test,security]  # Dependencias de testeo
+          pip install ruff==0.3.7 mypy==1.8.0  # Linters estáticos
+
+      - name: Configurar entorno
+        run: |
+          cp env.sample .env  # Variables de entorno para testing
+          echo "MODE=ci" >> .env
+          echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+
+      - name: Análisis estático
+        run: |
+          echo "=== Verificación con Ruff ==="
+          ruff check --config=pyproject.toml src/ tests/
+          
+          echo "=== Verificación de tipos con MyPy ==="
+          mypy --config-file=pyproject.toml src/
+
+      - name: Pruebas unitarias
+        run: |
+          pytest \
+            --cov=src \          # Genera informe de cobertura
+            --cov-report=xml \    # Para SonarQube
+            --cov-report=term \   # Muestra resultados en consola
+            --durations=10 \      # Identifica pruebas lentas
+            tests/unit/
+
+      - name: Escaneo de seguridad
+        run: |
+          pip install safety
+          safety check --full-report  # Detecta dependencias vulnerables
+          bandit -r src/             # Análisis de código inseguro
+
+      - name: Subir métricas de cobertura
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true  # Falla si la cobertura es insuficiente
+
+  pruebas-integración:
+    name: Suite de Integración
+    needs: control-calidad  # Depende del job anterior
+    runs-on: ubuntu-22.04
+    
+    services:
+      postgres:  # Base de datos para testing
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          docker-compose -f docker-compose.test.yml up -d
+          pytest tests/integration  # Pruebas con servicios realesa

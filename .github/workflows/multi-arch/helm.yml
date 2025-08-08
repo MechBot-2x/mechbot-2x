@@ -1,0 +1,61 @@
+name: Publish MechBot 2.0x (Multi-Arch/Helm)
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Ej: v2.1.0, v3.0.0-rc1
+  workflow_dispatch: # Ejecución manual
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      # Descarga de artifacts del job de build
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4.2.1
+        with:
+          name: build-output
+          path: /tmp/artifacts
+
+      # Configuración de Helmfile
+      - name: Deploy with Helmfile
+        uses: cloudposse/github-action-deploy-helmfile@0.7.0
+        with:
+          cluster: mechbot-prod-cluster
+          aws-region: us-west-2
+          helmfile-path: ./deploy/helm
+          helmfile: mechbot.helmfile.yaml
+          operation: deploy
+          environment: production
+          namespace: mechbot-prod
+          image: mechmind/mechbot-api
+          image-tag: ${{ github.ref_name }}
+          helm_version: 3.12.0
+          helmfile_version: 0.150.0
+          kubectl_version: 1.27.5
+          values_yaml: |
+            monitoring:
+              enabled: true
+            canbus:
+              interface: vcan0
+
+      # Notificación de estado
+      - name: Slack Notification
+        if: always()
+        uses: slackapi/slack-github-action@v1
+        with:
+          channel-id: 'mechbot-deployments'
+          slack-message: |
+            ${{ job.status }}: Despliegue v${{ github.ref_name }} completado
+            *Cluster*: `mechbot-prod-cluster`
+            *Commit*: `${{ github.sha }}`
+            *Helm Release*: `mechbot-${{ github.run_number }}`
+
+      # Escaneo de seguridad de la imagen
+      - name: Scan image
+        uses: aquasecurity/trivy-action@0.9
+        with:
+          image-ref: mechmind/mechbot-api:${{ github.ref_name }}
+          severity: 'CRITICAL,HIGH'

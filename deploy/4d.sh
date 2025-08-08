@@ -1,0 +1,3 @@
+--env=production \
+--can-interface=vcan0 \
+--3d-quality=ultra

@@ -1,0 +1,13 @@
+#`proto/telemetry/v2/mechbot.proto`
+syntax = "proto3";  
+
+message VehicleSignal {  
+    uint64 timestamp = 1;  
+    string signal_id = 2;  
+    oneof value {  
+        double numeric = 3;  
+        bool boolean = 4;  
+        bytes raw = 5;  
+    }  
+    map<string, string> metadata = 6;  
+}

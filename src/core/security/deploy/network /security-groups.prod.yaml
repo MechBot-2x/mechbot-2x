@@ -1,0 +1,5 @@
+| Protocolo | Puertos | Cifrado Requerido |  
+|-----------|---------|-------------------|  
+| CAN Bus   | -       | TLS 1.3 + MACsec  |  
+| gRPC      | 50051   | mTLS con ECDSA    |  
+| HTTP/API  | 443     | HSTS + TLS 1.3    | 

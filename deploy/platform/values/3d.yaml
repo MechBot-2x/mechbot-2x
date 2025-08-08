@@ -1,0 +1,7 @@
+# Configuración Helm para visualización 3D
+renderEngine:
+  type: "webgl"  # webgl|wasm
+  resolution: "4K"
+  assets:
+    bucket: "mechbot-3d-models"
+    cacheTTL: 86400

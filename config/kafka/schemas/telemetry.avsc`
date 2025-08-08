@@ -1,0 +1,15 @@
+### **3. Capa Servicios**  
+**Configuración Kafka:** `config/kafka/schemas/telemetry.avsc`  
+```json  
+{  
+  "type": "record",  
+  "name": "TelemetryRecord",  
+  "fields": [  
+    {"name": "vehicle_id", "type": "string"},  
+    {"name": "signals", "type": {  
+      "type": "array",  
+      "items": "double"  
+    }}  
+  ]  
+}  
+```  

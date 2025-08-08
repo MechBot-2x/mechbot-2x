@@ -1,0 +1,106 @@
+name: SLSA3 Provenance Generator for MechBot 2.0
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+    tags: ['v*.*.*']
+
+env:
+  ARTIFACTS_DIR: 'dist'
+  BUILD_SCRIPT: './scripts/build.sh'
+  PROVENANCE_FILENAME: 'multiple.intoto.jsonl'
+
+jobs:
+  build:
+    name: Build artifacts and generate hashes
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_digests: ${{ steps.generate_hashes.outputs.hashes }}
+      artifact_names: ${{ steps.generate_hashes.outputs.artifact_list }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necesario para el versionado preciso
+
+      - name: Set up build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+          pip install --upgrade pip setuptools wheel
+
+      - name: Build project artifacts
+        run: |
+          mkdir -p ${{ env.ARTIFACTS_DIR }}
+          chmod +x ${{ env.BUILD_SCRIPT }}
+          ${{ env.BUILD_SCRIPT }} ${{ env.ARTIFACTS_DIR }}
+          
+          # Validar que se crearon artefactos
+          if [ -z "$(ls -A ${{ env.ARTIFACTS_DIR }})" ]; then
+            echo "::error::No artifacts generated in ${{ env.ARTIFACTS_DIR }}"
+            exit 1
+          fi
+
+      - name: Generate artifact hashes
+        id: generate_hashes
+        run: |
+          cd ${{ env.ARTIFACTS_DIR }}
+          files=$(ls *)
+          
+          # Validar tipos de archivos
+          for file in $files; do
+            if [[ ! "$file" =~ \.(whl|tar\.gz|zip)$ ]]; then
+              echo "::warning::Skipping non-standard artifact: $file"
+              continue
+            fi
+            echo "Processing artifact: $file"
+            sha256sum "$file" >> hashes.txt
+          done
+          
+          # Codificar resultados en base64
+          echo "artifact_list=$(echo $files | base64 -w0)" >> $GITHUB_OUTPUT
+          echo "hashes=$(cat hashes.txt | base64 -w0)" >> $GITHUB_OUTPUT
+          
+          # Mostrar resumen
+          echo "=== ARTIFACT HASHES ==="
+          cat hashes.txt
+
+  provenance:
+    name: Generate SLSA3 Provenance
+    needs: [build]
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.4.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.artifact_digests }}"
+      upload-assets: true
+      asset-name: "${{ needs.build.outputs.artifact_names }}"
+      provenance-name: "${{ env.PROVENANCE_FILENAME }}"
+
+  verify:
+    name: Verify Provenance
+    needs: [provenance]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts
+          path: ${{ env.ARTIFACTS_DIR }}
+
+      - name: Download provenance
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PROVENANCE_FILENAME }}
+          path: .
+
+      - name: Verify provenance
+        uses: slsa-framework/slsa-verifier@v2.3.0
+        with:
+          artifact-path: "${{ env.ARTIFACTS_DIR }}/*"
+          provenance-path: "${{ env.PROVENANCE_FILENAME }}"
+          source-uri: "github.com/${{ github.repository }}"
+          source-tag: "${{ github.ref_name }}"

@@ -1,0 +1,170 @@
+import os
+import sys
+from pathlib import Path
+from typing import List, Dict
+name: Build Documentation
+on: [push]
+
+from diagrams import Diagram, Cluster
+from diagrams.aws.compute import EC2, ECS
+from diagrams.aws.database import RDS
+from diagrams.aws.network import ELB
+from diagrams.custom import Custom
+from diagrams.onprem.iac import Ansible
+from diagrams.onprem.monitoring import Grafana
+
+# Configuración del sistema
+CONFIG =
+{
+    "output_dir": Path("docs/technical/architecture"),
+    "formats": ["png", "svg"],
+    "theme": "dark",
+    "dpi": 300,
+    "font": "Arial"
+}
+
+class MechBotDiagramGenerator:
+    """
+    Generador profesional de diagramas para la plataforma MechBot 2.0
+    
+    Args:
+        config (Dict): Configuración de generación
+    """
+    
+    def __init__(self, config: Dict):
+        self.config = config
+        self._validate_environment()
+        
+    def _validate_environment(self):
+        """Verifica dependencias y entorno"""
+        try:
+            from diagrams import Diagram
+        except ImportError as e:
+            raise RuntimeError("Requiere instalación: pip install diagrams graphviz") from e
+        
+        if not (self.config["output_dir"].parent.exists()):
+            self.config["output_dir"].parent.mkdir(parents=True)
+
+    def generate_core_architecture(self):
+        """
+        Diagrama de arquitectura principal del sistema MechBot 2.0
+        
+        Muestra las 4 capas fundamentales:
+        1. Integración Vehicular (CAN/OBD)
+        2. Plataforma de Procesamiento
+        3. Servicios de IA
+        4. Interfaz Aplicativa
+        """
+        with Diagram("MechBot Core Architecture",
+                   filename=str(self.config["output_dir"] / "core_architecture"),
+                   show=False,
+                   direction="TB",
+                   graph_attr={
+                       "dpi": str(self.config["dpi"]),
+                       "fontname": self.config["font"]
+                   }):
+            
+            # Capa de Integración Vehicular
+            with Cluster("Vehicle Integration Layer"):
+                can_bus = Custom("CAN Bus", "./resources/icons/can_bus.png")
+                obd_ii = Custom("OBD-II", "./resources/icons/obd.png")
+                sensors = [Custom(f"Sensor {i}", "./resources/icons/sensor.png") 
+                          for i in range(1, 4)]
+                
+            # Capa de Plataforma
+            with Cluster("Processing Platform"):
+                lb = ELB("Load Balancer")
+                processors = [ECS(f"Node {i}") for i in ["A", "B", "C"]]
+                k8s = Ansible("K8s Orchestrator")
+                
+            # Capa de Servicios
+            with Cluster("AI Services"):
+                ml_engine = EC2("ML Engine")
+                diag_model = EC2("Diagnostic Model")
+                telemetry = EC2("Telemetry")
+                
+            # Capa Aplicativa
+            with Cluster("Application Layer"):
+                dashboard = Custom("Tech Dashboard", "./resources/icons/dashboard.png")
+                mobile = Custom("Mobile App", "./resources/icons/mobile.png")
+                grafana = Grafana("Monitoring")
+                
+            # Conectores principales
+            (can_bus >> lb >> processors >> ml_engine >> dashboard)
+            (obd_ii >> k8s >> diag_model >> mobile)
+            (sensors >> telemetry >> grafana)
+
+    def generate_data_flow(self):
+        """Genera diagrama de flujo de datos CAN bus"""
+        with Diagram("CAN Bus Data Flow",
+                   filename=str(self.config["output_dir"] / "can_data_flow"),
+                   show=False,
+                   direction="LR"):
+            
+            # Nodos del flujo CAN
+            ecu1 = Custom("ECU 1", "./resources/icons/ecu.png")
+            ecu2 = Custom("ECU 2", "./resources/icons/ecu.png")
+            gateway = Custom("Gateway", "./resources/icons/gateway.png")
+            processor = EC2("Signal Processor")
+            db = RDS("Telemetry DB")
+            
+            ecu1 >> gateway >> processor
+            ecu2 >> gateway
+            processor >> db
+
+if __name__ == "__main__":
+    try:
+        print("=== MECHBOT DIAGRAM GENERATOR ===")
+        generator = MechBotDiagramGenerator(CONFIG)
+        
+        print("Generating core architecture diagram...")
+        generator.generate_core_architecture()
+        
+        print("Generating CAN bus data flow...")
+        generator.generate_data_flow()
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+        print(f"\n✅ Diagramas generados en: {CONFIG['output_dir'].absolute()}")
+    except Exception as e:
+        print(f"\n❌ Error: {str(e)}", file=sys.stderr)
+        sys.exit(1)
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+      
+      - name: Install Python packages
+        run: |
+          pip install --upgrade pip
+          pip install diagrams==0.23.3 pillow==9.5.0
+      
+      - name: Create resources directory
+        run: |
+          mkdir -p resources/icons
+          # Esto debería ser reemplazado con la descarga real de tus íconos
+          touch resources/icons/{can_bus,obd,ecu,dashboard,sensor,mobile,gateway}.png
+      
+      - name: Generate architecture diagrams
+        run: |
+          python scripts/generate_diagrams.py
+          echo "Generated files:"
+          ls -R docs/technical/architecture/
+      
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: technical-docs
+          path: |
+            docs/technical/architecture/
+          if-no-files-found: error
+          retention-days: 7

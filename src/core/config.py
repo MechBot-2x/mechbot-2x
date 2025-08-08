@@ -1,3 +1,5 @@
-# En src/core/config.py
-from python-dotenv-vault import load_dotenv
-load_dotenv(override=True, vault_file=".env.vault")
+lint = {
+    "ignore": ["some_ignore_rule"],
+    "select": ["some_select_rule"],
+    "unfixable": ["some_unfixable_rule"]
+}

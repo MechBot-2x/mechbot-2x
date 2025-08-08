@@ -1,0 +1,136 @@
+#generator.generate_data_flow()
+Update docs.yml
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+2 months ago
+
+Update docs.yml
+
+last week
+
+Update docs.yml
+      - name: Set up Python
+last week
+
+Update docs.yml
+        print(f"\n✅ Diagramas generados en: {CONFIG['output_dir'].absolute()}")
+    except Exception as e:
+        print(f"\n❌ Error: {str(e)}", file=sys.stderr)
+        sys.exit(1)
+      - name: Set up Python 3.12
+2 months ago
+
+Update docs.yml
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+last week
+
+Update docs.yml
+      
+2 months ago
+
+Update docs.yml
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+last week
+
+Update docs.yml
+          sudo apt-get install -y libjpeg-dev zlib1g-dev graphviz
+      - name: Upgrade pip and install Python packages
+last week
+
+Update docs.yml
+          sudo apt-get install -y graphviz
+      
+      - name: Install Python packages
+2 months ago
+
+Update docs.yml
+        run: |
+last week
+
+Update docs.yml
+          python -m pip install --upgrade pip
+last week
+
+Update docs.yml
+          pip install --upgrade pip
+2 months ago
+
+Update docs.yml
+          pip install diagrams==0.23.3 pillow==9.5.0
+last week
+
+Update docs.yml
+      - name: Create resources directory and placeholders
+last week
+
+Update docs.yml
+      
+      - name: Create resources directory
+2 months ago
+
+Update docs.yml
+        run: |
+          mkdir -p resources/icons
+last week
+
+Update docs.yml
+          # Puedes reemplazar esto por la descarga o generación real de íconos en el futuro
+last week
+
+Update docs.yml
+          # Esto debería ser reemplazado con la descarga real de tus íconos
+2 months ago
+
+Update docs.yml
+          touch resources/icons/{can_bus,obd,ecu,dashboard,sensor,mobile,gateway}.png
+last week
+
+Update docs.yml
+      
+2 months ago
+
+Update docs.yml
+      - name: Generate architecture diagrams
+        run: |
+          python scripts/generate_diagrams.py
+          echo "Generated files:"
+last week
+
+Update docs.yml
+          ls -R docs/architecture/
+last week
+
+Update docs.yml
+          ls -R docs/technical/architecture/
+2 weeks ago
+
+Update docs.yml
+      
+2 months ago
+
+Update docs.yml
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: technical-docs
+last week
+
+Update docs.yml
+          path: docs/architecture/
+last week
+
+Update docs.yml
+          path: |
+            docs/technical/architecture/
+2 months ago
+
+Update docs.yml
+          if-no-files-found: error
+          retention-days: 7

@@ -1,4 +1,3 @@
-# En tls_config.py
 CIPHERS = [
     'TLS_AES_256_GCM_SHA384',
     'TLS_CHACHA20_POLY1305_SHA256'
