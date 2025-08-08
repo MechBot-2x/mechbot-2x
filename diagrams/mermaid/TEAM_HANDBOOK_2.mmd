@@ -1,0 +1,8 @@
+C4Container
+title Diagnosis Service
+Container(api, "API Gateway", "gRPC/HTTP2")
+Container(ml, "ML Service", "ONNX Runtime")
+Container(can, "CAN Adapter", "SocketCAN")
+
+Rel(api, ml, "Predicciones")
+Rel(can, api, "Streaming")

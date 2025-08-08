@@ -4,12 +4,12 @@ Aquí está la documentación estructurada para el equipo de ingeniería de Mech
 
 # **Equipo de Ingeniería - MechBot 2.0x**  
 **Documentación Oficial**  
-`TEAM_HANDBOOK.md` | Ubicación: `docs/engineering/TEAM_HANDBOOK.md`
+`TEAM_HANDBOOK.md` | Ubicación: `engineering/TEAM_HANDBOOK.md`
 
 ## **1. Estructura del Equipo**
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffdfd3'}}}%%
-flowchart TD
+flowchart_TD
     subgraph L["Liderazgo Técnico"]
         A[CTO] --> B[Arquitecto Principal]
         A --> C[Engineering Manager]
@@ -57,7 +57,7 @@ def check_imports():
 ## **3. Procesos Clave**
 
 ### **Revisión de Código**
-📄 `docs/engineering/CODE_REVIEW_GUIDELINES.md`
+📄 `engineering/CODE_REVIEW_GUIDELINES.md`
 ```markdown
 1. **Regla 20/20/20**:
    - 20 minutos por revisión
@@ -114,7 +114,7 @@ make stress-test  # Ejecutar pruebas de carga
 ## **7. Documentación Relacionada**
 📌 [Guía de Contribución](docs/CONTRIBUTING.md)  
 📌 [Política de Seguridad](SECURITY.md)  
-📌 [Playbook de Incidentes](docs/incidents/PLAYBOOK.md)
+📌 [Playbook de Incidentes](incidents/PLAYBOOK.md)
 
 **Firma del Equipo**  
 🔧 *Innovando en movilidad inteligente desde 2023*  

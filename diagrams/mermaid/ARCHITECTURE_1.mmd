@@ -1,0 +1,13 @@
+C4Context
+title System Landscape
+Person(owner, "Dueño del Vehículo", "Usa la app para diagnóstico y reparaciones")
+Person(mechanic, "Técnico Certificado", "Recibe alertas y guías de reparación")
+System(mechbot, "MechBot 2.0x", "Plataforma de diagnóstico inteligente")
+
+System_Ext(obd, "Dispositivo OBD-II", "Provee datos de telemetría")
+System_Ext(workshop, "Sistemas de Taller", "WMS/CRM de talleres asociados")
+
+Rel(owner, mechbot, "Usa para")
+Rel(mechanic, mechbot, "Consulta")
+Rel(obd, mechbot, "Envía datos via")
+Rel(mechbot, workshop, "Integra con")

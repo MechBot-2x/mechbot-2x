@@ -1,4 +1,3 @@
-```protobuf
 // proto/diagnosis/v1/service.proto
 service DiagnosisService {
   rpc Analyze (DiagnosisRequest) returns (DiagnosisResponse) {

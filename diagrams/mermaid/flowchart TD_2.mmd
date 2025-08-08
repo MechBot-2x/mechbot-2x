@@ -1,0 +1,5 @@
+sequenceDiagram
+Vehicle->>Platform: Señales CAN (RAW)
+Platform->>Services: gRPC-stream (Protobuf)
+Services->>App: WebSocket (LZ4)
+App->>Vehicle: Comandos (ACK CAN)

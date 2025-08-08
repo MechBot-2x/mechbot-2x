@@ -1,7 +1,4 @@
-## **1. Core Architecture**
-
-```mermaid
-flowchart TD
+flowchart_TD
     A[Vehicle] -->|CAN FD 2.0B| B[Edge Node]
     B -->|gRPC-stream| C[Cloud Core]
     C --> D{Microservices}
@@ -12,7 +9,6 @@ flowchart TD
 **Implementation Command:**
 ```bash
 # Generate architecture diagrams
-make arch-diagram \
-  --input=docs/architecture/specs/ \
-  --format=mermaid
-```
+m# Middleware de auditoría
+   app.logger.info(f"Secret accessed: {secret_path} by {user} at {timestamp}")
+``

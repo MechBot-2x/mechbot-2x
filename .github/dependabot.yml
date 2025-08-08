@@ -30,9 +30,16 @@ actualizaciones:
       intervalo: "semanal"
 
 # Configuración de seguridad (vulnerabilidades)
-alertas-seguridad:
-  habilitado: true
-  pull-requests:
-    auto-merge: true     # Merge automático para parches críticos
-    reviewers: 
-      - "@mechbot-security-team
+ - alertas-seguridad:
+          habilitado: true
+         pull-requests:
+           auto-merge: true     # Merge automático para parches críticos
+           reviewers: 
+ - "@mechbot-security-team
+
+ updates:
+  - package-ecosystem: "npm"
+    schedule: 
+      interval: "weekly"
+      time: "08:00"  # GMT-4
+    reviewers: ["@mechmind-dwv/team-core"]

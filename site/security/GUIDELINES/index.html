@@ -1,0 +1,1341 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../DEPENDENCY-POLICY/">
+      
+      
+        <link rel="next" href="../../monitoring/REALTIME_DASHBOARDS/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Directrices - MechBot 2.0x Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#documentacion-de-seguridad-mechbot-20x" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="MechBot 2.0x Docs" class="md-header__button md-logo" aria-label="MechBot 2.0x Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MechBot 2.0x Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Directrices
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MechBot 2.0x Docs" class="md-nav__button md-logo" aria-label="MechBot 2.0x Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MechBot 2.0x Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inicio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arquitectura
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Arquitectura
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/4D_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arquitectura 4D
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/4D_DATA_FLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Flujo de Datos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/4D_COMMS_PROTOCOL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Protocolo Comms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Seguridad
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Seguridad
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SECURITY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Políticas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DEPENDENCY-POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dependencias
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Directrices
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Directrices
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-gestion-de-secretos-y-credenciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Gestión de Secretos y Credenciales
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Gestión de Secretos y Credenciales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recomendaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recomendaciones:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuracion-de-red-y-comunicaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Configuración de Red y Comunicaciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Configuración de Red y Comunicaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recomendaciones_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recomendaciones:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-seguridad-en-contenedores" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Seguridad en Contenedores
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Seguridad en Contenedores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Buenas Prácticas:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-hardening-de-bases-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Hardening de Bases de Datos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Hardening de Bases de Datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuraciones-criticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuraciones Críticas:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-monitoreo-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Monitoreo de Seguridad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Monitoreo de Seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alertas-prioritarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alertas Prioritarias:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-auditoria-y-cumplimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Auditoría y Cumplimiento
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Auditoría y Cumplimiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checklist-automatizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checklist Automatizado:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anexo-politicas-de-emergencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anexo: Políticas de Emergencia
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Monitorización
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Monitorización
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitoring/REALTIME_DASHBOARDS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitoring/ALERTING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Alertas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AI
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            AI
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/DIAGNOSIS_MODELS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modelos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai/NLP_CHATBOT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chatbot
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/REST_API/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    REST
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/GRPC_PROTOCOLS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    gRPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-gestion-de-secretos-y-credenciales" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Gestión de Secretos y Credenciales
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Gestión de Secretos y Credenciales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recomendaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recomendaciones:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuracion-de-red-y-comunicaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Configuración de Red y Comunicaciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Configuración de Red y Comunicaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recomendaciones_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recomendaciones:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-seguridad-en-contenedores" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Seguridad en Contenedores
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Seguridad en Contenedores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Buenas Prácticas:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-hardening-de-bases-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Hardening de Bases de Datos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Hardening de Bases de Datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuraciones-criticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuraciones Críticas:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-monitoreo-de-seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Monitoreo de Seguridad
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Monitoreo de Seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alertas-prioritarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alertas Prioritarias:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-auditoria-y-cumplimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Auditoría y Cumplimiento
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Auditoría y Cumplimiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checklist-automatizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checklist Automatizado:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anexo-politicas-de-emergencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anexo: Políticas de Emergencia
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="documentacion-de-seguridad-mechbot-20x"><strong>Documentación de Seguridad - MechBot 2.0x</strong></h1>
+<p><strong>Ubicación:</strong> <code>docs/security/GUIDELINES.md</code><br />
+<strong>Equipo de Ingeniería - Security Team</strong><br />
+<strong>Versión:</strong> 2.0.1 | <strong>Última actualización:</strong> 2025-04-03  </p>
+<hr />
+<h2 id="1-gestion-de-secretos-y-credenciales"><strong>1. Gestión de Secretos y Credenciales</strong></h2>
+<p><strong>Archivos clave:</strong><br />
+- <code>.vault/env.encrypted</code> (Cifrado con Ansible Vault)<br />
+- <code>kubernetes/secrets/templates/secret-template.yaml</code>  </p>
+<h3 id="recomendaciones"><strong>Recomendaciones:</strong></h3>
+<ol>
+<li>
+<p><strong>Nunca almacenar en claro</strong>:<br />
+   <div class="highlight"><pre><span></span><code><span class="c1"># Mal práctica (evitar):</span>
+<span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>password123<span class="w">  </span><span class="c1"># ❌</span>
+
+<span class="c1"># Buen práctica:</span>
+<span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span><span class="si">${</span><span class="nv">VAULT</span><span class="p">:</span><span class="nv">db_prod_password</span><span class="si">}</span><span class="w">  </span><span class="c1"># ✅</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Rotación obligatoria</strong>:<br />
+   <div class="highlight"><pre><span></span><code><span class="c1"># En .env.sample</span>
+<span class="na">JWT_SECRET_ROTATION_INTERVAL</span><span class="o">=</span><span class="s">30d</span><span class="w">  </span><span class="c1"># Rotación mensual</span>
+<span class="na">DB_CREDENTIALS_ROTATION</span><span class="o">=</span><span class="s">15d</span><span class="w">       </span><span class="c1"># Rotación quincenal para entornos críticos</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Herramientas recomendadas</strong>:  </p>
+</li>
+<li><strong>HashiCorp Vault</strong> para gestión centralizada  </li>
+<li><strong>AWS Secrets Manager</strong> para entornos cloud  </li>
+<li><strong>SOPS</strong> para cifrado de archivos (config en <code>.sops.yaml</code>)  </li>
+</ol>
+<hr />
+<h2 id="2-configuracion-de-red-y-comunicaciones"><strong>2. Configuración de Red y Comunicaciones</strong></h2>
+<p><strong>Archivos clave:</strong><br />
+- <code>deploy/network/security-groups.prod.yaml</code><br />
+- <code>src/core/security/tls_config.py</code>  </p>
+<h3 id="recomendaciones_1"><strong>Recomendaciones:</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Protocolo</th>
+<th>Puertos</th>
+<th>Cifrado Requerido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAN Bus</td>
+<td>-</td>
+<td>TLS 1.3 + MACsec</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td>50051</td>
+<td>mTLS con ECDSA</td>
+</tr>
+<tr>
+<td>HTTP/API</td>
+<td>443</td>
+<td>HSTS + TLS 1.3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ejemplo de configuración TLS:</strong><br />
+<div class="highlight"><pre><span></span><code><span class="c1"># En tls_config.py</span>
+<span class="n">CIPHERS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;TLS_AES_256_GCM_SHA384&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;TLS_CHACHA20_POLY1305_SHA256&#39;</span>
+<span class="p">]</span>
+</code></pre></div></p>
+<hr />
+<h2 id="3-seguridad-en-contenedores"><strong>3. Seguridad en Contenedores</strong></h2>
+<p><strong>Archivos clave:</strong><br />
+- <code>dockerfiles/Dockerfile.secure</code><br />
+- <code>kubernetes/policies/pod-security-policy.yaml</code>  </p>
+<h3 id="buenas-practicas"><strong>Buenas Prácticas:</strong></h3>
+<ol>
+<li>
+<p><strong>Usar usuarios no-root</strong>:<br />
+   <div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">alpine:3.18</span>
+<span class="k">RUN</span><span class="w"> </span>adduser<span class="w"> </span>-D<span class="w"> </span>mechbotuser
+<span class="k">USER</span><span class="w"> </span><span class="s">mechbotuser  # ✅</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Scan de vulnerabilidades</strong>:<br />
+   <div class="highlight"><pre><span></span><code><span class="c1"># En CI/CD (publish.yml)</span>
+-<span class="w"> </span>name:<span class="w"> </span>Scan<span class="w"> </span>image
+<span class="w">  </span>uses:<span class="w"> </span>aquasecurity/trivy-action@0.9
+<span class="w">  </span>with:
+<span class="w">    </span>image-ref:<span class="w"> </span><span class="si">${</span><span class="p">{ steps.meta.outputs.tags </span><span class="si">}</span><span class="o">}</span>
+<span class="w">    </span>severity:<span class="w"> </span><span class="s1">&#39;CRITICAL,HIGH&#39;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Políticas Kubernetes</strong>:<br />
+   <div class="highlight"><pre><span></span><code><span class="c1"># En pod-security-policy.yaml</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">readOnlyRootFilesystem</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">allowPrivilegeEscalation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">capabilities</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">drop</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;ALL&quot;</span><span class="p p-Indicator">]</span>
+</code></pre></div></p>
+</li>
+</ol>
+<hr />
+<h2 id="4-hardening-de-bases-de-datos"><strong>4. Hardening de Bases de Datos</strong></h2>
+<p><strong>Archivos clave:</strong><br />
+- <code>deploy/postgres/postgres-hardening.sql</code><br />
+- <code>config/cassandra/security.yaml</code>  </p>
+<h3 id="configuraciones-criticas"><strong>Configuraciones Críticas:</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">-- En postgres-hardening.sql</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">SYSTEM</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">ssl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;on&#39;</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">SYSTEM</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">password_encryption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;scram-sha-256&#39;</span><span class="p">;</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">mechbot_rw</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">LOGIN</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="s1">&#39;${VAULT_DB_PWD}&#39;</span><span class="w"> </span><span class="n">NOINHERIT</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># En cassandra/security.yaml</span>
+<span class="nt">authenticator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PasswordAuthenticator</span>
+<span class="nt">authorizer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CassandraAuthorizer</span>
+<span class="nt">role_manager</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CassandraRoleManager</span>
+</code></pre></div>
+<hr />
+<h2 id="5-monitoreo-de-seguridad"><strong>5. Monitoreo de Seguridad</strong></h2>
+<p><strong>Archivos clave:</strong><br />
+- <code>monitoring/siem/alerts-rules.yml</code><br />
+- <code>deploy/efk/security-dashboard.ndjson</code>  </p>
+<h3 id="alertas-prioritarias"><strong>Alertas Prioritarias:</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># En alerts-rules.yml</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">JWT_Tampering_Attempt</span>
+<span class="w">  </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rate(jwt_failed_attempts[5m]) &gt; 3</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">critical</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Posible</span><span class="nv"> </span><span class="s">ataque</span><span class="nv"> </span><span class="s">de</span><span class="nv"> </span><span class="s">fuerza</span><span class="nv"> </span><span class="s">bruta</span><span class="nv"> </span><span class="s">JWT&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="6-auditoria-y-cumplimiento"><strong>6. Auditoría y Cumplimiento</strong></h2>
+<p><strong>Archivos clave:</strong><br />
+- <code>compliance/iso27001-controls.csv</code><br />
+- <code>scripts/security/audit.sh</code>  </p>
+<h3 id="checklist-automatizado"><strong>Checklist Automatizado:</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># En audit.sh</span>
+check_ssl<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span>openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span><span class="nv">$1</span>:443<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;TLSv1.3&quot;</span>
+<span class="o">}</span>
+check_db_encryption<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span>psql<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SHOW ssl;&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;on&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+<hr />
+<h2 id="anexo-politicas-de-emergencia"><strong>Anexo: Políticas de Emergencia</strong></h2>
+<p><strong>Ubicación:</strong> <code>docs/security/INCIDENT_RESPONSE.md</code>  </p>
+<table>
+<thead>
+<tr>
+<th>Escenario</th>
+<th>Acción Inmediata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fuga de credenciales</td>
+<td>Rotar TODOS los secretos en &lt;1h</td>
+</tr>
+<tr>
+<td>Ataque DDoS</td>
+<td>Activar Cloudflare WAF + Scale Up</td>
+</tr>
+<tr>
+<td>Intrusión DB</td>
+<td>Aislar cluster + Snapshots forenses</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Equipo de Seguridad MechBot 2.0x</strong><br />
+🔒 <code>security@mechbot.tech</code> | 🔗 <a href="https://github.com/mechmind-dwv/mechbot-2x/wiki/Security">Convenciones de Seguridad</a>  </p>
+<p><em>Documentación verificada por: @david-security-lead @maria-compliance-officer</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

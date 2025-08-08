@@ -85,7 +85,7 @@ kubectl create cluster mechbot-prod \
   --storage=500Gi
 ```
 
-### Dispositivos Soportados
+### Dispositivos Soportadoslo
 | Tipo | Requisitos | Rendimiento |
 |------|------------|-------------|
 | Taller | NVIDIA RTX A2000 | 30 vehículos/hora |
@@ -95,6 +95,5 @@ kubectl create cluster mechbot-prod \
 ---
 
 **Equipo MechBot 2.0x**
-[![Contribuidores](https://img.shields.io/github/contributors/mechmind-dwv/mechbot-2x)]()  
-*Documentación actualizada: 2025-04-01*
-\n## Integración Red MI\nIncluye especificaciones de...
+[![Contribuidores](https://img.shields.io/github/contributors/MechBot-2x/mechbot-2x)]()  
+*Documentación actualizada: 2025-08-08*
