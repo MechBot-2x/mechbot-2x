@@ -1,0 +1,26 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff2cc'}}}%%  
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fff2cc'}}}%%
+flowchart TD
+subgraph FISICA["Capa Física"]
+A[Protocolo CAN 2.0B]
+B[ISO 15765-4]
+end
+
+subgraph PLATAFORMA["Capa Plataforma"]
+C[gRPC-stream]
+D[HTTP/2]
+end
+
+subgraph SERVICIOS["Capa Servicios"]
+E[Protobuf v3]
+F[Avro Schema]
+end
+
+subgraph APLICACION["Capa Aplicación"]
+G[WebSocket]
+H[gRPC-Web]
+end
+
+FÍSICA -->|Codificación| PLATAFORMA  
+PLATAFORMA -->|Serialización| SERVICIOS  
+SERVICIOS -->|Optimización| APLICACIÓN  

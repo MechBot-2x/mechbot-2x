@@ -79,7 +79,7 @@ updates:
   ```
 
 ## **Documentación Relacionada**  
-📌 [Política de Dependencias](docs/security/DEPENDENCY-POLICY.md)  
+📌 [Política de Dependencias](security/DEPENDENCY-POLICY.md)  
 📌 [Proceso de Actualización](docs/development/UPDATE-PROCESS.md)  
 
 **Firma:**  

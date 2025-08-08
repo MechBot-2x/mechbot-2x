@@ -1,0 +1,4 @@
+flowchart TD
+FÍSICA["🛠️ Capa Física\n- Kubernetes/NVIDIA/RPi\n- CAN Bus 2.0B"] --> PLATAFORMA["🐳 Capa Plataforma\n- Docker/Helm/Istio"]
+PLATAFORMA --> SERVICIOS["🔌 Capa Servicios\n- gRPC-stream/Kafka"] 
+SERVICIOS --> APLICACIÓN["📊 Capa Aplicación\n- Dashboard 3D/Telemetría"]

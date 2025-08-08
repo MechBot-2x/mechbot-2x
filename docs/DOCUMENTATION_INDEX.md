@@ -6,9 +6,9 @@ Here's the comprehensive technical documentation for MechBot 2.0x with precise f
 `DOCUMENTATION_INDEX.md` | Location: `/docs/DOCUMENTATION_INDEX.md`
 
 ## **1. Core Architecture**
-📄 `docs/architecture/4D_ARCHITECTURE.md`
+📄 `architecture/4D_ARCHITECTURE.md`
 ```mermaid
-flowchart TD
+flowchart_TD
     A[Vehicle] -->|CAN FD 2.0B| B[Edge Node]
     B -->|gRPC-stream| C[Cloud Core]
     C --> D{Microservices}
@@ -20,12 +20,12 @@ flowchart TD
 ```bash
 # Generate architecture diagrams
 make arch-diagram \
-  --input=docs/architecture/specs/ \
+  --input=architecture/specs/ \
   --format=mermaid
 ```
 
 ## **2. AI/ML Implementation**
-📄 `docs/ai/DIAGNOSIS_MODELS.md`
+📄 `ai/DIAGNOSIS_MODELS.md`
 ```python
 # Model conversion to ONNX (scripts/convert_model.py)
 python convert_model.py \
@@ -34,7 +34,7 @@ python convert_model.py \
   --quantize
 ```
 
-📄 `docs/ai/NLP_CHATBOT.md`
+📄 `ai/NLP_CHATBOT.md`
 ```bash
 # Deploy BERT model
 kubectl apply -f deploy/ai/nlp-deployment.yaml
@@ -62,7 +62,7 @@ vault operator init -key-shares=5 -key-threshold=3
 ```
 
 ## **4. API Documentation**
-📄 `docs/api/REST_API.md`
+📄 `api/REST_API.md`
 ```markdown
 ## Vehicle Telemetry API
 `POST /api/v2/telemetry`
@@ -78,7 +78,7 @@ Request:
 ```
 ```
 
-📄 `docs/api/GRPC_PROTOCOLS.md`
+📄 `api/GRPC_PROTOCOLS.md`
 ```protobuf
 // proto/diagnosis/v1/service.proto
 service DiagnosisService {
@@ -150,7 +150,7 @@ curl -X POST \
 ```
 
 ## **8. Development Standards**
-📄 `docs/engineering/CODE_STYLE.md`
+📄 `engineering/CODE_STYLE.md`
 ```markdown
 ## Python Style Guide
 - Black formatting (line-length=100)
@@ -158,7 +158,7 @@ curl -X POST \
 - Type hints mandatory for public APIs
 ```
 
-📄 `docs/engineering/REVIEW_GUIDELINES.md`
+📄 `engineering/REVIEW_GUIDELINES.md`
 ```yaml
 # .github/pull_request_template.md
 ## Changes Made
@@ -178,9 +178,9 @@ Available targets:
 ```
 
 ## **10. Related Documents**
-📌 [Data Retention Policy](docs/monitoring/RETENTION_POLICY.md)  
-📌 [Incident Response Playbook](docs/incidents/RESPONSE_PLAYBOOK.md)  
-📌 [Hardware Specifications](docs/hardware/HW_SPECS.md)
+📌 [Data Retention Policy](monitoring/RETENTION_POLICY.md)  
+📌 [Incident Response Playbook](incidents/RESPONSE_PLAYBOOK.md)  
+📌 [Hardware Specifications](hardware/HW_SPECS.md)
 
 **Engineering Team Contacts**  
 🛠️ *24/7 Support: engineering-support@mechbot.tech*  

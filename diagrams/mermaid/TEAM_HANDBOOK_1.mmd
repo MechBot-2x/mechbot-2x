@@ -1,0 +1,16 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffdfd3'}}}%%
+flowchart TD
+subgraph L["Liderazgo Técnico"]
+A[CTO] --> B[Arquitecto Principal]
+A --> C[Engineering Manager]
+end
+
+subgraph T["Tribus"]
+B --> D[Plataforma]
+C --> E[IA/ML]
+C --> F[Embedded]
+D --> G[DevOps]
+D --> H[Backend]
+E --> I[Data Science]
+F --> J[Firmware]
+end
