@@ -2,10 +2,7 @@
 **Arquitectura**: CI/CD + Multi-Cloud (AWS/GCP)  
 
 [![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions
-
-
-# Estructura del Proyecto MechBot 2.0x  
-**Arquitectura**: CI/CD + Multi-Cloud (AWS/GCP)  
+  
 
 [![CI/CD Pipeline](https://github.com/.../ci-cd.yml/badge.svg)](https://github.com/.../actions)
 
@@ -67,7 +64,7 @@
 ├── .env.sample                  # Plantilla variables
 ├── Makefile                     # Automatización
 └── pyproject.toml               # Dependencias Python
-
+```
 
 ### 🔍 Explicación de Directorios Clave
 
@@ -90,25 +87,7 @@
    - `e2e/`: Pruebas con Playwright (Chromium en Docker)  
    - `integration/`: Mock de servicios externos con `wiremock`  
    - `unit/`: Incluye fuzzing para APIs con `hypothesis`
-
-### 🛠️ Workflow de Desarrollo
-
-mermaid
-graph LR
-    A[GitHub Issue] --> B[Branch semántico]
-    B --> C[Pre-commit: lint+security]
-    C --> D[CI: build+test]
-    D -->|Aprobado| E[Deploy Dev]
-    E --> F[QA Automation]
-    F -->|✅| G[Promote to Prod]
-
-### 📊 Métricas de Calidad
-| Área | Herramienta | Objetivo |
-|------|------------|----------|
-| Código | SonarQube | <5% debt |
-| Seguridad | Trivy | 0 CVE críticas |
-| Rendimiento | k6 | p95 <2s |
-| Documentación | Vale | 100% coverage |
+|
 
 **Equipo Técnico MechBot 2.0x**  
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)  

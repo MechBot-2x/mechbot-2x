@@ -87,3 +87,8 @@ docker-compose.*.yml
 ### ▶️ Dependencias Node
 node_modules/
 .npm
+.env
+*.pyc
+__pycache__
+node_modules
+.venv

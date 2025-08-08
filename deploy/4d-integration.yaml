@@ -1,4 +1,3 @@
-```yaml
 # Mapeo de capas
 resource_mapping:
   physical:
@@ -13,4 +12,3 @@ resource_mapping:
     dependencies:
       - "services/grpc@v2.1"
       - "services/kafka@v1.7"
-```

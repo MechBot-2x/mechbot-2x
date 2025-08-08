@@ -1,17 +1,37 @@
-# Dockerfile.secure
-FROM python:3.10-slim
+# Dockerfile.secure - Versión corregida
+FROM python:3.10-slim as builder
 
-USER mechbot:mechbot  # Usuario no-root
-
-# Configuración de seguridad
+# Instalar dependencias del sistema
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    gcc \
+    python3-dev \
     libcap2-bin && \
-    setcap 'cap_net_raw,cap_net_admin+ep' /usr/local/bin/python && \
-    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-HEALTHCHECK --interval=30s --timeout=3s \
-  CMD python -c "import requests; requests.get('http://localhost:8000/health')"
+WORKDIR /app
+COPY requirements.txt .
 
-COPY --chown=mechbot:mechbot . /app
+# Instalar dependencias Python
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+FROM python:3.10-slim
+WORKDIR /app
+
+# Crear usuario seguro
+RUN groupadd -r mechbot && \
+    useradd -r -g mechbot -d /app -s /bin/false mechbot && \
+    chown -R mechbot:mechbot /app
+
+# Copiar desde builder
+COPY --from=builder --chown=mechbot:mechbot /root/.local /home/mechbot/.local
+COPY --chown=mechbot:mechbot src/ .
+
+# Configurar entorno
+USER mechbot
+ENV PATH="/home/mechbot/.local/bin:${PATH}"
+
+# Verificar instalación
+RUN python -c "import sys; print(sys.path)"
+
+CMD ["python", "-m", "core.data_flow4D"]

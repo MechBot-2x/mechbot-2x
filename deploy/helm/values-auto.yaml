@@ -1,4 +1,3 @@
-```yaml
 autoscaling:
   enabled: true
   minReplicas: 3
@@ -9,4 +8,3 @@ autoscaling:
         target:
           type: Utilization
           averageUtilization: 70
-```
