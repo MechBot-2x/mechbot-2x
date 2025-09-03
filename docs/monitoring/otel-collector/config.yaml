@@ -1,0 +1,4 @@
+# Comando para iniciar el pipeline
+./scripts/start-stream-processing.sh \
+    --kafka-brokers=kafka1:9092,kafka2:9092 \
+    --prometheus-url=http://prometheus:9090
