@@ -1,0 +1,9 @@
+groups:
+- name: vehicle-alerts
+  rules:
+  - alert: HighCANBusLatency
+    expr: rate(canbus_latency_seconds[1m]) > 0.5
+    labels:
+      severity: 'critical'
+    annotations:
+      summary: "Alta latencia en bus CAN ({{ $value }}s)"
