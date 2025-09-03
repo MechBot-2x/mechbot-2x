@@ -1,0 +1,6 @@
+# Fragmento de prometheus.yml
+scrape_configs:
+  - job_name: 'vehicle_metrics'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['canbus-exporter:9100', 'ia-inference:9110']
