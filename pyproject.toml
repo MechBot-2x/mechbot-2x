@@ -79,7 +79,7 @@ ia = [
     
     # Procesamiento de Señales
     "scipy==1.10.1",            # Análisis de vibraciones
-    "scikit-learn==1.5.1",      # Pre-procesamiento
+    "scikit-learn==1.2.2",      # Pre-procesamiento
     
     # Visión por Computador
     "opencv-python==4.7.0.72",  # Análisis de imágenes
@@ -222,21 +222,3 @@ exclude = [
 
 [tool.setuptools.dynamic]
 version = {attr = "mechbot.__version__"}
-
-[tool.ruff]
-line-length = 88
-target-version = "py310"
-
-[tool.mypy]
-python_version = "3.10"
-strict = true
-
-[tool.black]
-line-length = 88
-target-version = ['py310']
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
