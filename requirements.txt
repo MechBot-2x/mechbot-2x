@@ -22,7 +22,7 @@ pandas==2.0.3
 onnxruntime==1.14.1
 xgboost==1.7.5
 transformers[torch]==4.30.2
-scikit-learn==1.2.2
+scikit-learn==1.5.0
 
 ### Bases de Datos ###
 asyncpg==0.27.0
@@ -31,7 +31,7 @@ cassandra-driver==3.28.0
 redis[hiredis]==4.5.5
 
 ### gRPC e Integraciones ###
-grpcio==1.54.2
+grpcio==1.54.3
 grpcio-tools==1.54.2
 google-api-python-client==2.86.0
 
@@ -42,10 +42,10 @@ pytest-cov==4.1.0
 httpx==0.24.1
 
 ### Formateo y Linting ###
-black==23.7.0
+black==24.3.0
 ruff==0.0.280
 mypy==1.5.0
 
 # Versiones fijas para compatibilidad
-protobuf==4.23.2  # Requerido por gRPC y ONNX
+protobuf==4.25.8  # Requerido por gRPC y ONNX
 numpy==1.24.4     # Evitar conflictos con ONNX
