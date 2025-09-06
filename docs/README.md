@@ -1,4 +1,3 @@
-```markdown
 # MechBot 2.0x - Plataforma de Diagnóstico Automotriz Inteligente
 
 ![CI Status](https://github.com/mechbot-2x/mechbot-2x/actions/workflows/ci-cd.yml/badge.svg)
