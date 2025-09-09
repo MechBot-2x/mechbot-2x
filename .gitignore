@@ -92,3 +92,9 @@ node_modules/
 __pycache__
 node_modules
 .venv
+
+.env.backup.*
+*_venv/
+venv_backup/
+requirements.txt.backup*
+

@@ -1,33 +1,21 @@
-FROM python:3.10-slim as builder
-
-# Instalar dependencias de compilación
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    gcc \
-    python3-dev \
-    libcap2-bin && \
-    rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-COPY requirements.txt .
-
-# Instalar dependencias Python
-RUN pip install --user --no-cache-dir -r requirements.txt
-
 FROM python:3.10-slim
+
 WORKDIR /app
 
-# Configurar usuario seguro
-RUN groupadd -r mechbot && \
-    useradd -r -g mechbot mechbot && \
-    mkdir -p /app && \
-    chown -R mechbot:mechbot /app
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libglib2.0-0 \
+    libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copiar desde builder
-COPY --from=builder --chown=mechbot:mechbot /root/.local /home/mechbot/.local
-COPY --chown=mechbot:mechbot src/core/data_flow4D.py .
+# Copiar requirements primero para cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-USER mechbot
-ENV PATH="/home/mechbot/.local/bin:${PATH}"
+# Copiar código
+COPY . .
 
-CMD ["python", "-m", "data_flow4D"]
+EXPOSE 8000
+
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
