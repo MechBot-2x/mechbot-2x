@@ -1,30 +1,6 @@
 # --------------------------------------------
 # SCRIPT DE DESPLIEGUE EN KUBERNETES (GitLab CI)
 # --------------------------------------------
-stages:
-  - test
-  - build
-  - deploy
-
-variables:
-  DOCKER_IMAGE: registry.gitlab.com/mechbot/mechbot-2x:$CI_COMMIT_REF_SLUG
-
-test:
-  stage: test
-  image: python:3.10
-  script:
-    - pip install -r requirements.txt
-    - python -m pytest tests/ -v
-
-build:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  script:
-    - docker build -t $DOCKER_IMAGE .
-    - docker push $DOCKER_IMAGE
-
 deploy-prod:
   stage: deploy
   image: alpine/k8s:1.25.0

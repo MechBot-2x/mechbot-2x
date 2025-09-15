@@ -1,0 +1,31 @@
+// --------------------------------------------
+// PROTOCOLO gRPC PARA COMUNICACIÓN CON TALLERES
+// --------------------------------------------
+syntax = "proto3";
+
+package mechbot;
+
+service WorkshopService {
+  rpc ScheduleRepair (RepairRequest) returns (RepairResponse);
+  rpc StreamTelemetry (stream TelemetryData) returns (Ack);
+}
+
+message RepairRequest {
+  string vin = 1;
+  repeated string fault_codes = 2;
+  string workshop_id = 3;
+}
+
+message TelemetryData {
+  map<string, float> sensors = 1;  // Ej: {"rpm": 3200, "temp": 85}
+}
+
+message RepairResponse {
+  string appointment_id = 1;
+  int64 estimated_cost = 2;  // En céntimos
+}
+
+message Ack {
+  bool success = 1;
+  string message = 2;
+}

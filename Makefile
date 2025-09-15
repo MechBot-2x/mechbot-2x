@@ -146,3 +146,27 @@ generate-diagrams:  ## Genera diagramas de arquitectura
 
 # —— Meta Targets ——
 .DEFAULT_GOAL := help
+
+# Targets para JWT
+token:  ## Generar token JWT de prueba
+	python scripts/generate_token.py
+
+verify-token:  ## Verificar token JWT
+	@if [ -z "$(TOKEN)" ]; then \
+		echo "Usage: make verify-token TOKEN=your_token"; \
+		exit 1; \
+	fi
+	python scripts/verify_token.py "$(TOKEN)"
+
+env-check:  ## Verificar configuración de entorno
+	@echo "🔍 Verificando variables de entorno..."
+	@if [ -f ".env" ]; then \
+		echo "✅ .env encontrado"; \
+		if grep -q "JWT_SECRET" .env; then \
+			echo "✅ JWT_SECRET configurado"; \
+		else \
+			echo "❌ JWT_SECRET no configurado"; \
+		fi; \
+	else \
+		echo "❌ .env no encontrado"; \
+	fi
