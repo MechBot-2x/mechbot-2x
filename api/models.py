@@ -8,7 +8,7 @@ from typing import Optional, List
 class User(BaseModel):
     """Modelo de usuario para autenticación"""
     username: str = Field(..., min_length=3, max_length=50)
-    email: str = Field(..., regex=r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+    email: str = Field(..., pattern=r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
     disabled: Optional[bool] = False
 
 class UserInDB(User):
