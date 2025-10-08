@@ -2,7 +2,7 @@
 Servicio de autenticación JWT
 """
 from datetime import datetime, timedelta
-from jose import JWTError, jwt
+from jwt import JWTError, jwt
 from passlib.context import CryptContext
 from api.models import User, UserInDB, TokenData
 import os
