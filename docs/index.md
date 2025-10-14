@@ -6,6 +6,7 @@ flowchart TD
     A --> C[Seguridad]
     A --> D[Monitorización]
     A --> E[AI]
+
 Acceso Rápido
 
     Resumen Técnico
@@ -56,5 +57,3 @@ grep -r "texto-del-enlace" docs/
 nano docs/ruta/al/archivo.md
 
 Ahora deberías poder ver y navegar por toda la documentación sin problemas.```
-```
-
