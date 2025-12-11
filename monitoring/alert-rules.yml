@@ -1,7 +1,3 @@
-## **Configuración de Alertas**
-
-**Archivo:** `monitoring/alert-rules.yml`
-```yaml
 groups:
 - name: vehicle-alerts
   rules:
@@ -11,4 +7,3 @@ groups:
       severity: 'critical'
     annotations:
       summary: "Alta latencia en bus CAN ({{ $value }}s)"
-```
