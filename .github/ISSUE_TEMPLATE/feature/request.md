@@ -1,12 +1,10 @@
-```markdown
-     ## Descripción del Error
-     [Detalla el comportamiento esperado vs actual]
+ ## Descripción del Error
+[Detalla el comportamiento esperado vs actual]
 
-     ## Pasos para Reproducir
-     1. ...
-     2. ...
+## Pasos para Reproducir
+1. ...
+2. ...
 
-     ## Ambiente
-     - Versión: [v2.0.1]
-     - SO: [Windows/Linux/macOS
-```
+## Ambiente
+- Versión: [v2.0.1]
+- SO: [Windows/Linux/macOS
