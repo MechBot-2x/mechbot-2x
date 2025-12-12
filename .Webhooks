@@ -1,0 +1,8 @@
+{  
+  "timestamp": "2025-12-12T14:23:45Z",  
+  "vin": "1HGCM82633A123456",  
+  "obd2_params": {  
+    "engine_temp": 92, // °C  
+    "fuel_pressure": 3.4 // kPa  
+  }  
+}
