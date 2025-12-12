@@ -1,21 +1,33 @@
-# Security Policy
+# MechBot 2.0x Security Policy
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+The following versions currently receive security updates:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Version  | Support Status          | EOL Date    | Critical Support Until |
+|----------|-------------------------|-------------|------------------------|
+| 2.1.x    | :white_check_mark:      | 2026-03-01  | 2026-06-01             |
+| 2.0.x    | :warning: (LTS)         | 2025-12-01  | 2025-12-01             |
+| 1.5.x    | :x:                     | 2025-06-01  | -                      |
+| < 1.5    | :x:                     | 2024-12-01  | -                      |
 
-## Reporting a Vulnerability
+:white_check_mark: = Full Support  
+:warning: = Critical Fixes Only  
+:x: = Unsupported
 
-Use this section to tell people how to report a vulnerability.
+## Vulnerability Reporting
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+### Disclosure Policy
+- **Private disclosure window**: 90 days from initial report
+- **Public disclosure**: After patch availability or 90 days (whichever comes first)
+- **Response SLA**: Initial response within 72 business hours
+
+### Reporting Channels
+1. **Preferred**: security@mechbot.tech (PGP Key [0xAB3F2C1D])
+2. **Fallback**: GitHub Security Advisories (for GitHub-native projects)
+3. **Emergency**: +1-555-MECH-SEC (Security Operations Center)
+
+```pgp
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+[Redacted PGP Key for actual implementation]
+-----END PGP PUBLIC KEY BLOCK-----
