@@ -38,9 +38,9 @@ build-backend = "setuptools.build_meta"
 # =================================
 dependencies = [
     # Capa de API y Comunicaciones
-    "fastapi==0.95.2",          # Framework API web (ASGI)
+    "fastapi==0.104.1",          # Framework API web (ASGI)
     "uvicorn[standard]==0.22.0", # Servidor ASGI optimizado
-    "starlette==0.27.0",        # Componentes ASGI base
+    "starlette==0.49.1",        # Componentes ASGI base
     
     # Seguridad y Autenticación
     "python-jose[cryptography]==3.3.0",  # Implementación JWT
@@ -50,7 +50,7 @@ dependencies = [
     # Manejo de Datos
     "pydantic[email]==1.10.7",  # Validación de datos
     "orjson==3.9.5",            # Serialización JSON ultra-rápida
-    "python-dotenv==1.0.0",     # Gestión de entornos
+    "python-dotenv==1.1.1",     # Gestión de entornos
     
     # Concurrencia y Paralelismo
     "anyio==3.6.2",             # Abstracción asíncrona
