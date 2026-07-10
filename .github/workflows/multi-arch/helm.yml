@@ -55,7 +55,7 @@ jobs:
 
       # Escaneo de seguridad de la imagen
       - name: Scan image
-        uses: aquasecurity/trivy-action@0.9
+        uses: aquasecurity/trivy-action@0.3x
         with:
           image-ref: mechmind/mechbot-api:${{ github.ref_name }}
           severity: 'CRITICAL,HIGH'
