@@ -59,7 +59,7 @@ pydantic==2.11.7
 pydantic_core==2.33.2
 PyJWT==2.10.1
 pyserial==3.5
-python-dotenv==1.1.1
+python-dotenv==1.2.2
 python-qt-binding==2.2.1
 qt-dotgraph==2.7.5
 qt-gui==2.7.5
